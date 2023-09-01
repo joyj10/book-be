@@ -1,18 +1,18 @@
 package com.won.book.dto;
 
-/**
- * ReadBookDto
- * <pre>
- * Describe here
- * </pre>
- *
- * <pre>
- * <b>History:</b>
- * lia.jung, 1.0, 2023/07/13 초기작성
- * </pre>
- *
- * @author lia.jung
- * @version 1.0,
- */
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class ReadBookDto {
+    private String title;
+    private String sort;
+    private String image;
+    private String author;
+    private String publisher;
+    private String readAt;
+    private int price;
+
+    private Long readBookId;
 }

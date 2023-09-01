@@ -19,11 +19,10 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @Table(name = "read_book")
 public class ReadBook {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "read_book_id")
     private Long id;
 
@@ -35,20 +34,34 @@ public class ReadBook {
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @OneToMany(mappedBy = "readBook")
+    @OneToMany(mappedBy = "readBook", fetch = FetchType.LAZY)
     private List<ReadBookRating> readBookRatings = new ArrayList<>();
 
-    @OneToMany(mappedBy = "readBook")
+    @OneToMany(mappedBy = "readBook", fetch = FetchType.LAZY)
     private List<ReadBookContent> readBookContents = new ArrayList<>();
 
-    @OneToMany(mappedBy = "readBook")
+    @OneToMany(mappedBy = "readBook", fetch = FetchType.LAZY)
     private List<ReadBookReview> readBookReviews = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "ReadBook{" +
+                "id=" + id +
+                ", readCount=" + readCount +
+                ", totalRating=" + totalRating +
+                ", lastReadAt=" + lastReadAt +
+                ", deleteYn='" + deleteYn + '\'' +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                ", book=" + book.getTitle() +
+                '}';
+    }
 }
