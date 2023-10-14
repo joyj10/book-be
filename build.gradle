@@ -28,8 +28,8 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
 
     //    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    //    implementation 'org.springframework.boot:spring-boot-starter-security'
-    //    testImplementation 'org.springframework.security:spring-security-test'
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        testImplementation 'org.springframework.security:spring-security-test'
 
     // swagger
     implementation "io.springfox:springfox-boot-starter:3.0.0"
@@ -44,6 +44,9 @@ dependencies {
     // mapstruct
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
+    // Querydsl JPA
+//    implementation 'com.querydsl:querydsl-jpa'
 }
 
 test {
