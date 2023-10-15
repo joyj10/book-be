@@ -2,6 +2,7 @@ package com.won.book.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,6 +19,8 @@ public class WantBook {
     @Column(name = "want_book_id")
     private Long id;
 
+    @ColumnDefault("N")
+    @Column(length = 1, nullable = false)
     private String deleteYn;
 
     private LocalDateTime createAt;

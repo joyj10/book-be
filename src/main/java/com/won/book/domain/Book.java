@@ -19,7 +19,7 @@ public class Book extends BaseDateEntity {
     @Column(name = "book_id", updatable = false)
     private Long id;
 
-    @Column(name = "title")
+    @Column(name = "title", length = 200, nullable = false)
     private String title;
 
     @Column(name = "author")
@@ -34,10 +34,10 @@ public class Book extends BaseDateEntity {
     @Column(name = "publish_at")
     private LocalDate publishAt;
 
-    @Column(name = "isbn")
+    @Column(name = "isbn", nullable = false)
     private String isbn;
 
-    @Column(name = "sort")
+    @Column(name = "sort", nullable = false)
     private String sort;
 
     @Column(name = "image", columnDefinition = "TEXT")

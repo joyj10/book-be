@@ -17,6 +17,7 @@ public class WantBookReason {
     @Column(name = "want_book_reason_id")
     private Long id;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String reason;
 
     private LocalDateTime createAt;

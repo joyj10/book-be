@@ -1,7 +1,7 @@
 package com.won.book.domain;
 
 import lombok.Getter;
-import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,9 +26,17 @@ public class ReadBook {
     @Column(name = "read_book_id")
     private Long id;
 
+    @Column(nullable = false)
     private int readCount;
+
+    @Column(nullable = false)
     private float totalRating;
+
+    @Column(nullable = false)
     private LocalDateTime lastReadAt;
+
+    @ColumnDefault("N")
+    @Column(length = 1, nullable = false)
     private String deleteYn;
 
     private LocalDateTime createAt;

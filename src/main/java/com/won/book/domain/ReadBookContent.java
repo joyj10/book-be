@@ -15,6 +15,7 @@ public class ReadBookContent {
     @Column(name = "read_book_content_id")
     private Long id;
 
+    @Column(nullable = false, name = "content", columnDefinition = "TEXT")
     private String content;
 
     private LocalDateTime createAt;

@@ -25,8 +25,13 @@ public class ReadBookRating {
     @Column(name = "read_book_rating_id")
     private Long id;
 
+    @Column(nullable = false)
     private int repeatOrder;
+
+    @Column(nullable = false)
     private LocalDateTime readAt;
+
+    @Column(nullable = false)
     private float rating;
 
     private LocalDateTime createAt;

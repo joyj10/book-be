@@ -17,6 +17,7 @@ public class ReadBookReview {
     @Column(name = "read_book_review_id")
     private Long id;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String review;
 
     private LocalDateTime createAt;
