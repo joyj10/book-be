@@ -1,10 +1,11 @@
 package com.won.book.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +19,11 @@ import java.util.List;
  */
 
 @Entity
-@Getter @Setter
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "member")
-public class Member {
+public class Member extends BaseDateEntity {
     @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id;
@@ -33,9 +36,6 @@ public class Member {
 
     @Column(nullable = false)
     private String password;
-
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
 
     @OneToMany(mappedBy = "member")
     private List<ReadBook> readBooks = new ArrayList<>();

@@ -1,15 +1,19 @@
 package com.won.book.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 
 @Entity
 @Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "read_book_content")
-public class ReadBookContent {
+public class ReadBookContent extends BaseDateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "read_book_content_id")
@@ -17,9 +21,6 @@ public class ReadBookContent {
 
     @Column(nullable = false, name = "content", columnDefinition = "TEXT")
     private String content;
-
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
 
     @ManyToOne
     @JoinColumn(name = "read_book_id")

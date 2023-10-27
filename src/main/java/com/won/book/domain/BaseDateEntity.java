@@ -12,14 +12,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
-/**
- * BaseDateEntity
- * <pre>
- * Describe here
- * </pre>
- *
- * @version 1.0,
- */
 
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

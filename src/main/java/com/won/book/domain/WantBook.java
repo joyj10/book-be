@@ -1,19 +1,21 @@
 package com.won.book.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-@Setter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "want_book")
-public class WantBook {
+public class WantBook extends BaseDateEntity {
     @Id
     @GeneratedValue
     @Column(name = "want_book_id")
@@ -22,9 +24,6 @@ public class WantBook {
     @ColumnDefault("N")
     @Column(length = 1, nullable = false)
     private String deleteYn;
-
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
