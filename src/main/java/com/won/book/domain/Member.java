@@ -37,10 +37,10 @@ public class Member extends BaseDateEntity {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<ReadBook> readBooks = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<WantBook> wantBooks = new ArrayList<>();
 }
 

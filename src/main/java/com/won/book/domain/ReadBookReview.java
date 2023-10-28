@@ -22,7 +22,7 @@ public class ReadBookReview extends BaseDateEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String review;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "read_book_id")
     private ReadBook readBook;
 }

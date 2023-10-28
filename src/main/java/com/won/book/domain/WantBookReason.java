@@ -22,7 +22,7 @@ public class WantBookReason extends BaseDateEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String reason;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "want_book_id")
     private WantBook wantBook;
 }

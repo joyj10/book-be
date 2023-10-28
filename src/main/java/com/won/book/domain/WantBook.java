@@ -29,10 +29,10 @@ public class WantBook extends BaseDateEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @OneToMany(mappedBy = "wantBook")
+    @OneToMany(mappedBy = "wantBook", fetch = FetchType.LAZY)
     private List<WantBookReason> wantBookReasons = new ArrayList<>();
 }

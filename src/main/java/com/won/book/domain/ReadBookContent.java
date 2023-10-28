@@ -22,7 +22,7 @@ public class ReadBookContent extends BaseDateEntity {
     @Column(nullable = false, name = "content", columnDefinition = "TEXT")
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "read_book_id")
     private ReadBook readBook;
 }
