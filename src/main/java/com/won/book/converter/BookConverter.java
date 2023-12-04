@@ -1,9 +1,9 @@
 package com.won.book.converter;
 
-import com.won.book.core.utils.LocalDateTimeUtil;
-import com.won.book.domain.Book;
-import com.won.book.dto.BookVo;
-import com.won.book.dto.request.BookCreateRequest;
+import com.won.book.common.utils.LocalDateTimeUtil;
+import com.won.book.domain.book.Book;
+import com.won.book.domain.book.BookVo;
+import com.won.book.api.request.BookCreateRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -32,5 +32,6 @@ public interface BookConverter {
     @Mapping(target = "link", ignore = true)
     @Mapping(target = "createAt", ignore = true)
     @Mapping(target = "updateAt", ignore = true)
+    @Mapping(target = "image", ignore = true)
     Book convert(BookCreateRequest createRequest);
 }

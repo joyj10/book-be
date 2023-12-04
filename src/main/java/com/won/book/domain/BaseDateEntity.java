@@ -1,6 +1,7 @@
 package com.won.book.domain;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,6 +14,7 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 
+@Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @MappedSuperclass
@@ -25,12 +27,4 @@ public abstract class BaseDateEntity {
     @LastModifiedDate
     @Column(name = "update_at")
     private LocalDateTime updateAt;
-
-    public LocalDateTime getCreatedDate() {
-        return createAt;
-    }
-
-    public LocalDateTime getModifiedDate() {
-        return updateAt;
-    }
 }

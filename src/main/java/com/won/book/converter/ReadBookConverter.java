@@ -1,8 +1,8 @@
 package com.won.book.converter;
 
-import com.won.book.core.utils.LocalDateTimeUtil;
-import com.won.book.domain.ReadBook;
-import com.won.book.dto.ReadBookDto;
+import com.won.book.common.utils.LocalDateTimeUtil;
+import com.won.book.domain.readbook.ReadBook;
+import com.won.book.domain.readbook.ReadBookDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
