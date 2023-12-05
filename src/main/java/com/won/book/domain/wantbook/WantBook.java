@@ -3,6 +3,7 @@ package com.won.book.domain.wantbook;
 import com.won.book.domain.BaseDateEntity;
 import com.won.book.domain.book.Book;
 import com.won.book.domain.member.Member;
+import com.won.book.domain.readbook.ReadBookRating;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,6 +39,12 @@ public class WantBook extends BaseDateEntity {
     private Book book;
 
     @Builder.Default
-    @OneToMany(mappedBy = "wantBook", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "wantBook", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<WantBookReason> wantBookReasons = new ArrayList<>();
+
+    //== 연관 관계 편의 메서드 ==
+    public void addWantBookReason(WantBookReason wantBookReason) {
+        wantBookReasons.add(wantBookReason);
+        wantBookReason.setReadBook(this);
+    }
 }

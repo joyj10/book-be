@@ -41,4 +41,8 @@ public class ReadBookRating extends BaseDateEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "read_book_id")
     private ReadBook readBook;
+
+    public void setReadBook(ReadBook readBook) {
+        this.readBook = readBook;
+    }
 }

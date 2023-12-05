@@ -1,17 +1,12 @@
 package com.won.book.domain.member;
 
 import com.won.book.domain.BaseDateEntity;
-import com.won.book.domain.wantbook.WantBook;
-import com.won.book.domain.readbook.ReadBook;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Member
@@ -40,13 +35,5 @@ public class Member extends BaseDateEntity {
 
     @Column(nullable = false)
     private String password;
-
-    @Builder.Default
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    private List<ReadBook> readBooks = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    private List<WantBook> wantBooks = new ArrayList<>();
 }
 

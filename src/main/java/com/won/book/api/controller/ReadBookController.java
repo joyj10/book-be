@@ -1,8 +1,8 @@
 package com.won.book.api.controller;
 
 import com.won.book.common.response.ResultResponse;
-import com.won.book.domain.readbook.ReadBookDto;
-import com.won.book.domain.readbook.ReadBookService;
+import com.won.book.domain.readbook.dto.ReadBookDto;
+import com.won.book.domain.readbook.service.ReadBookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

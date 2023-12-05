@@ -26,4 +26,8 @@ public class WantBookReason extends BaseDateEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "want_book_id")
     private WantBook wantBook;
+
+    public void setReadBook(WantBook wantBook) {
+        this.wantBook = wantBook;
+    }
 }

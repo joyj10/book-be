@@ -1,4 +1,4 @@
-package com.won.book.domain.readbook;
+package com.won.book.domain.readbook.repository;
 
 import com.won.book.domain.readbook.ReadBook;
 import org.springframework.data.jpa.repository.JpaRepository;

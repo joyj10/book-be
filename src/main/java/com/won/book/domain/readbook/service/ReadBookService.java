@@ -1,6 +1,9 @@
-package com.won.book.domain.readbook;
+package com.won.book.domain.readbook.service;
 
 import com.won.book.converter.ReadBookConverter;
+import com.won.book.domain.readbook.ReadBook;
+import com.won.book.domain.readbook.dto.ReadBookDto;
+import com.won.book.domain.readbook.repository.ReadBookRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

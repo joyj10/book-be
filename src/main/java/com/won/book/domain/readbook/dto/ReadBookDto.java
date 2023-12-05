@@ -1,4 +1,4 @@
-package com.won.book.domain.readbook;
+package com.won.book.domain.readbook.dto;
 
 
 import lombok.Getter;

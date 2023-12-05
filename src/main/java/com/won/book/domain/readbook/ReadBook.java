@@ -48,14 +48,31 @@ public class ReadBook extends BaseDateEntity {
     private Book book;
 
     @Builder.Default
-    @OneToMany(mappedBy = "readBook", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "readBook", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ReadBookRating> readBookRatings = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "readBook", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "readBook", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ReadBookContent> readBookContents = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "readBook", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "readBook", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ReadBookReview> readBookReviews = new ArrayList<>();
+
+    //== 연관 관계 편의 메서드 ==
+    public void addReadBookRating(ReadBookRating readBookRating) {
+        readBookRatings.add(readBookRating);
+        readBookRating.setReadBook(this);
+    }
+
+    public void addReadBookContent(ReadBookContent readBookContent) {
+        readBookContents.add(readBookContent);
+        readBookContent.setReadBook(this);
+    }
+
+    public void addReadBookReview(ReadBookReview readBookReview) {
+        readBookReviews.add(readBookReview);
+        readBookReview.setReadBook(this);
+    }
+
 }
