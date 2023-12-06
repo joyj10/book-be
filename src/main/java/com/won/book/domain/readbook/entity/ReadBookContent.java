@@ -1,4 +1,4 @@
-package com.won.book.domain.readbook;
+package com.won.book.domain.readbook.entity;
 
 import com.won.book.domain.BaseDateEntity;
 import lombok.AccessLevel;
@@ -13,15 +13,15 @@ import javax.persistence.*;
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "read_book_review")
-public class ReadBookReview extends BaseDateEntity {
+@Table(name = "read_book_content")
+public class ReadBookContent extends BaseDateEntity {
     @Id
-    @GeneratedValue
-    @Column(name = "read_book_review_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "read_book_content_id")
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String review;
+    @Column(nullable = false, name = "content", columnDefinition = "TEXT")
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "read_book_id")

@@ -2,7 +2,7 @@ package com.won.book.converter;
 
 import com.won.book.common.utils.LocalDateTimeUtil;
 import com.won.book.domain.book.Book;
-import com.won.book.domain.book.BookVo;
+import com.won.book.domain.book.BookDto;
 import com.won.book.api.request.BookCreateRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -23,8 +23,8 @@ public interface BookConverter {
 
     @Mapping(target = "publishAt", source = "publishAt", dateFormat = LocalDateTimeUtil.DATE_FULL_DASH)
     @Mapping(target = "bookId", source = "id")
-    BookVo convert(Book book);
-    List<BookVo> convert(List<Book> books);
+    BookDto convert(Book book);
+    List<BookDto> convert(List<Book> books);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "publishAt", ignore = true)

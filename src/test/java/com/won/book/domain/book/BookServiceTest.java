@@ -2,6 +2,7 @@ package com.won.book.domain.book;
 
 import com.won.book.IntegrationTestSupport;
 import com.won.book.api.request.BookCreateRequest;
+import com.won.book.domain.book.repository.BookRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,7 @@ class BookServiceTest extends IntegrationTestSupport {
                 .build());
 
         // when
-        BookVo findBook = bookService.getBook(saveBook.getId());
+        BookDto findBook = bookService.getBook(saveBook.getId());
 
         // then
         assertThat(findBook).isNotNull()

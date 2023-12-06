@@ -1,4 +1,4 @@
-package com.won.book.domain.member;
+package com.won.book.domain.member.repository;
 
 import com.won.book.domain.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

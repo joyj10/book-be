@@ -2,17 +2,11 @@ package com.won.book.domain.book;
 
 import lombok.*;
 
-/**
- * BookVo
- * <pre>
- * Describe here
- * </pre>
- *
- * @version 1.0,
- */
-
-@Getter @Setter
-public class BookVo {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class BookDto {
     private Long bookId;
     private String title;
     private String author;

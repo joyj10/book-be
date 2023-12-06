@@ -1,18 +1,30 @@
 package com.won.book.api.controller;
 
+import com.won.book.common.response.ResultResponse;
+import com.won.book.domain.wantbook.dto.WantBookDto;
+import com.won.book.domain.wantbook.service.WantBookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/book/want")
 @Api(tags = "2. Want Book Controller")
+@RequiredArgsConstructor
 public class WantBookController {
+
+    private final WantBookService wantBookService;
 
     @GetMapping
     @ApiOperation(value = "읽고 싶은 책 리스트")
-    public String getList(String str) {
-        return "Hello, " + str;
+    public ResultResponse<List<WantBookDto>> getList() {
+        // TODO jwt 토큰 처리
+        Long memberId = 1L;
+        List<WantBookDto> result = wantBookService.getList(memberId);
+        return new ResultResponse<>(result);
     }
 
     @GetMapping("/{want-book-id}")

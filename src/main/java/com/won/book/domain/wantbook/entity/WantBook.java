@@ -1,15 +1,16 @@
-package com.won.book.domain.wantbook;
+package com.won.book.domain.wantbook.entity;
 
 import com.won.book.domain.BaseDateEntity;
 import com.won.book.domain.book.Book;
 import com.won.book.domain.member.Member;
-import com.won.book.domain.readbook.ReadBookRating;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,15 +21,17 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "want_book")
+@Where(clause = "is_deleted = false")
+@SQLDelete(sql = "UPDATE want_book SET is_deleted = true WHERE id = ?")
 public class WantBook extends BaseDateEntity {
     @Id
     @GeneratedValue
     @Column(name = "want_book_id")
     private Long id;
 
-    @ColumnDefault("N")
-    @Column(length = 1, nullable = false)
-    private String deleteYn;
+    @ColumnDefault("false")
+    @Column(nullable = false)
+    private boolean isDeleted;
 
     @ManyToOne
     @JoinColumn(name = "member_id")

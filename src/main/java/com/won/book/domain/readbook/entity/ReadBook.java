@@ -1,4 +1,4 @@
-package com.won.book.domain.readbook;
+package com.won.book.domain.readbook.entity;
 
 import com.won.book.domain.BaseDateEntity;
 import com.won.book.domain.member.Member;
@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,6 +22,8 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "read_book")
+@Where(clause = "is_deleted = false")
+@SQLDelete(sql = "UPDATE read_book SET is_deleted = true WHERE id = ?")
 public class ReadBook extends BaseDateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,9 +39,9 @@ public class ReadBook extends BaseDateEntity {
     @Column(nullable = false)
     private LocalDateTime lastReadAt;
 
-    @ColumnDefault("N")
-    @Column(length = 1, nullable = false)
-    private String deleteYn;
+    @ColumnDefault("false")
+    @Column(nullable = false)
+    private boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

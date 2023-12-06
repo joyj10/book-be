@@ -1,21 +1,13 @@
 package com.won.book.converter;
 
 import com.won.book.common.utils.LocalDateTimeUtil;
-import com.won.book.domain.readbook.ReadBook;
+import com.won.book.domain.readbook.entity.ReadBook;
 import com.won.book.domain.readbook.dto.ReadBookDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.List;
 
-/**
- * BookConverter
- * <pre>
- * Describe here
- * </pre>
- *
- * @version 1.0,
- */
 
 @Mapper(componentModel="spring")
 public interface ReadBookConverter {

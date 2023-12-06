@@ -1,4 +1,4 @@
-package com.won.book.domain.readbook;
+package com.won.book.domain.readbook.entity;
 
 import com.won.book.domain.BaseDateEntity;
 import lombok.AccessLevel;
@@ -7,21 +7,36 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
+/**
+ * ReadBookRating
+ * <pre>
+ * Describe here
+ * </pre>
+ *
+ * @version 1.0,
+ */
 
 @Entity
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "read_book_content")
-public class ReadBookContent extends BaseDateEntity {
+@Table(name = "read_book_rating")
+public class ReadBookRating extends BaseDateEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "read_book_content_id")
+    @GeneratedValue
+    @Column(name = "read_book_rating_id")
     private Long id;
 
-    @Column(nullable = false, name = "content", columnDefinition = "TEXT")
-    private String content;
+    @Column(nullable = false)
+    private int repeatOrder;
+
+    @Column(nullable = false)
+    private LocalDateTime readAt;
+
+    @Column(nullable = false)
+    private float rating;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "read_book_id")

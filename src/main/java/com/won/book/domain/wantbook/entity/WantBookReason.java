@@ -1,4 +1,4 @@
-package com.won.book.domain.wantbook;
+package com.won.book.domain.wantbook.entity;
 
 import com.won.book.domain.BaseDateEntity;
 import lombok.AccessLevel;

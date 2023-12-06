@@ -15,7 +15,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableJpaRepositories("com.won.**.domain")
+@EnableJpaRepositories("com.won.**.domain.**.repository")
 public class ApplicationConfiguration {
 
     @Autowired
@@ -37,7 +37,7 @@ public class ApplicationConfiguration {
 
         factoryBean.setDataSource(dataSource());
         factoryBean.setJpaVendorAdapter(vendorAdapter);
-        factoryBean.setPackagesToScan("com.won.**.domain");
+        factoryBean.setPackagesToScan("com.won.**.domain.**.**");
         factoryBean.setJpaProperties(commonJpaProperty().getProperties());
 
         return factoryBean;

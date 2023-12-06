@@ -2,7 +2,7 @@ package com.won.book.common.config.auth;
 //
 //import com.cos.jwt.model.User;
 //import com.won.book.domain.member.Member;
-//import com.won.book.domain.member.MemberRepository;
+//import com.won.book.domain.member.repository.MemberRepository;
 //import lombok.RequiredArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.security.core.userdetails.User;
