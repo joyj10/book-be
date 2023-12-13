@@ -1,6 +1,6 @@
 package com.won.book.converter;
 
-import com.won.book.common.utils.LocalDateTimeUtil;
+import com.won.book.common.util.LocalDateTimeUtil;
 import com.won.book.domain.book.Book;
 import com.won.book.domain.book.BookDto;
 import com.won.book.api.request.BookCreateRequest;

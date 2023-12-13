@@ -1,6 +1,6 @@
 package com.won.book.api.controller;
 
-import com.won.book.common.response.ResultResponse;
+import com.won.book.common.response.ResponseResult;
 import com.won.book.domain.readbook.dto.ReadBookDto;
 import com.won.book.domain.readbook.service.ReadBookService;
 import io.swagger.annotations.Api;
@@ -19,14 +19,14 @@ public class ReadBookController {
 
     @GetMapping("/v1/book/read")
     @ApiOperation(value = "읽은 책 리스트")
-    public ResultResponse<List<ReadBookDto>> getList() {
+    public ResponseResult<List<ReadBookDto>> getList() {
         // token 멤버 데이터 추출
         Long memberId = 1L;
         // 읽은 책 리스트 조회
         /** [추가작업] 페이징 처리 필요 */
         /** [추가작업] 검색 기능 필요 */
         /** [추가작업] 정렬 기능 필요 */
-        return new ResultResponse<>(readBookService.getList(memberId));
+        return new ResponseResult<>(readBookService.getList(memberId));
     }
 
     @GetMapping("/v1/book/read/{read-book-id}")

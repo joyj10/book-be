@@ -1,6 +1,6 @@
 package com.won.book.api.controller;
 
-import com.won.book.common.response.ResultResponse;
+import com.won.book.common.response.ResponseResult;
 import com.won.book.domain.wantbook.dto.WantBookDto;
 import com.won.book.domain.wantbook.service.WantBookService;
 import io.swagger.annotations.Api;
@@ -20,11 +20,11 @@ public class WantBookController {
 
     @GetMapping
     @ApiOperation(value = "읽고 싶은 책 리스트")
-    public ResultResponse<List<WantBookDto>> getList() {
+    public ResponseResult<List<WantBookDto>> getList() {
         // TODO jwt 토큰 처리
         Long memberId = 1L;
         List<WantBookDto> result = wantBookService.getList(memberId);
-        return new ResultResponse<>(result);
+        return new ResponseResult<>(result);
     }
 
     @GetMapping("/{want-book-id}")

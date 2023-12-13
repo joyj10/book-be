@@ -1,6 +1,6 @@
 package com.won.book.api.controller;
 
-import com.won.book.common.response.ResultResponse;
+import com.won.book.common.response.ResponseResult;
 import com.won.book.domain.book.BookDto;
 import com.won.book.api.request.BookCreateRequest;
 import com.won.book.domain.book.BookService;
@@ -21,21 +21,21 @@ public class BookController {
 
     @ApiOperation(value = "책 검색 조회 API", notes = "")
     @GetMapping("/v1//books")
-    public ResultResponse<List<BookDto>> getBooks(@RequestParam String keyword) {
+    public ResponseResult<List<BookDto>> getBooks(@RequestParam String keyword) {
         List<BookDto> bookDtos = bookService.getBooks(keyword);
-        return new ResultResponse<>(bookDtos);
+        return new ResponseResult<>(bookDtos);
     }
 
     @ApiOperation(value = "책 상세 조회 API", notes = "")
     @GetMapping("/v1//books/{id}")
-    public ResultResponse<BookDto> getBook(@PathVariable("id") Long bookId) {
+    public ResponseResult<BookDto> getBook(@PathVariable("id") Long bookId) {
         BookDto bookDto = bookService.getBook(bookId);
-        return new ResultResponse<>(bookDto);
+        return new ResponseResult<>(bookDto);
     }
 
     @ApiOperation(value = "책 저장 API", notes = "")
     @PostMapping("/v1//books")
-    public ResultResponse<Long> save(@Valid @RequestBody BookCreateRequest bookCreateRequest) {
-        return new ResultResponse<>(bookService.save(bookCreateRequest));
+    public ResponseResult<Long> save(@Valid @RequestBody BookCreateRequest bookCreateRequest) {
+        return new ResponseResult<>(bookService.save(bookCreateRequest));
     }
 }

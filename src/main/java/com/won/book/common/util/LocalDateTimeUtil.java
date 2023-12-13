@@ -1,4 +1,4 @@
-package com.won.book.common.utils;
+package com.won.book.common.util;
 
 /**
  * LocalDateTimeUtil
