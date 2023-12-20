@@ -13,19 +13,18 @@ public class WebSecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http
-			.httpBasic().disable()
-			.csrf().disable()
-			.authorizeRequests()
-			.antMatchers("/api/**")
-			.permitAll();  // 개발 임시 처리
+        http
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("/api/**").permitAll()
+                        .anyRequest().authenticated()
+                );
 
-		return http.build();
+        return http.build();
 	}
 
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
-		return web -> web.ignoring().antMatchers(
+		return web -> web.ignoring().requestMatchers(
 				"/v2/api-docs",
 				"/configuration/ui",
 				"/swagger-resources/**",

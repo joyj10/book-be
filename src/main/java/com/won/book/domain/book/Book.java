@@ -4,7 +4,7 @@ import com.won.book.domain.BaseDateEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
 

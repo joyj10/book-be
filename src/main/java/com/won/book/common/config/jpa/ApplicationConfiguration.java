@@ -13,6 +13,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import java.util.Objects;
 
 @Configuration
 @EnableJpaRepositories("com.won.**.domain.**.repository")
@@ -37,7 +38,7 @@ public class ApplicationConfiguration {
 
         factoryBean.setDataSource(dataSource());
         factoryBean.setJpaVendorAdapter(vendorAdapter);
-        factoryBean.setPackagesToScan("com.won.**.domain.**.**");
+        factoryBean.setPackagesToScan("com.won.**.domain.**");
         factoryBean.setJpaProperties(commonJpaProperty().getProperties());
 
         return factoryBean;
@@ -47,7 +48,7 @@ public class ApplicationConfiguration {
     public DataSource dataSource()
     {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("spring.datasource.driver-class-name"));
+        dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("spring.datasource.driver-class-name")));
         dataSource.setUrl(env.getProperty("spring.datasource.url"));
         dataSource.setUsername(env.getProperty("spring.datasource.username"));
         dataSource.setPassword(env.getProperty("spring.datasource.password"));
