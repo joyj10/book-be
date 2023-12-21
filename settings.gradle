@@ -1,1 +1,2 @@
 rootProject.name = 'book'
+include 'book-common', 'book-domain', 'book-app-api'
