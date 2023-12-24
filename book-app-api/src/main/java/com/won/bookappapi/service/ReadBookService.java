@@ -33,4 +33,10 @@ public class ReadBookService {
         List<ReadBook> readBooks = readBookRepository.findAllByMember(memberRepository.getReferenceById(memberId));
         return readBookConverter.convert(readBooks);
     }
+
+    public ReadBookDto getDetail(Long memberId, Long readBookId) {
+        ReadBook readBook = readBookRepository.findByIdAndMember(readBookId, memberRepository.getReferenceById(memberId))
+                .orElseThrow(IllegalArgumentException::new);
+        return readBookConverter.convert(readBook);
+    }
 }

@@ -31,8 +31,10 @@ public class ReadBookController {
 
     @GetMapping("/v1/book/read/{read-book-id}")
     @ApiOperation(value = "읽은 책 상세")
-    public String getDetail(@PathVariable("read-book-id") Long readBookId, String str) {
-        return "Hello, " + str;
+    public ResponseResult<ReadBookDto> getDetail(@PathVariable("read-book-id") Long readBookId) {
+        // token 멤버 데이터 추출
+        Long memberId = 1L;
+        return new ResponseResult<>(readBookService.getDetail(memberId, readBookId));
     }
 
     @PostMapping("/v1/book/read")
