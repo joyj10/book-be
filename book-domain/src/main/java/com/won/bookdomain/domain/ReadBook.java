@@ -77,4 +77,8 @@ public class ReadBook extends BaseDateEntity {
         readBookReview.setReadBook(this);
     }
 
+    public void deleted() {
+        this.isDeleted = true;
+    }
+
 }

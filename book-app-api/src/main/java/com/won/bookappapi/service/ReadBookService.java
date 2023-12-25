@@ -7,6 +7,7 @@ import com.won.bookdomain.repository.MemberRepository;
 import com.won.bookdomain.repository.ReadBookRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,9 +35,20 @@ public class ReadBookService {
         return readBookConverter.convert(readBooks);
     }
 
+    @Transactional(readOnly = true)
     public ReadBookDto getDetail(Long memberId, Long readBookId) {
         ReadBook readBook = readBookRepository.findByIdAndMember(readBookId, memberRepository.getReferenceById(memberId))
                 .orElseThrow(IllegalArgumentException::new);
         return readBookConverter.convert(readBook);
+    }
+
+    @Transactional
+    public void delete(Long memberId, Long readBookId) throws BadRequestException {
+        ReadBook readBook = readBookRepository.findByIdAndMember(readBookId, memberRepository.getReferenceById(memberId))
+                .orElseThrow(IllegalArgumentException::new);
+        if (readBook.isDeleted()) {
+            throw new BadRequestException();
+        }
+        readBook.deleted();
     }
 }

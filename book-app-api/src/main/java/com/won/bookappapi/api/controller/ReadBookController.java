@@ -6,6 +6,7 @@ import com.won.bookappapi.service.ReadBookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,27 +21,23 @@ public class ReadBookController {
     @GetMapping("/v1/book/read")
     @ApiOperation(value = "읽은 책 리스트")
     public ResponseResult<List<ReadBookDto>> getList() {
-        // token 멤버 데이터 추출
-        Long memberId = 1L;
         // 읽은 책 리스트 조회
         /** [추가작업] 페이징 처리 필요 */
         /** [추가작업] 검색 기능 필요 */
         /** [추가작업] 정렬 기능 필요 */
-        return new ResponseResult<>(readBookService.getList(memberId));
+        return new ResponseResult<>(readBookService.getList(getMemberId()));
     }
 
     @GetMapping("/v1/book/read/{read-book-id}")
     @ApiOperation(value = "읽은 책 상세")
     public ResponseResult<ReadBookDto> getDetail(@PathVariable("read-book-id") Long readBookId) {
-        // token 멤버 데이터 추출
-        Long memberId = 1L;
-        return new ResponseResult<>(readBookService.getDetail(memberId, readBookId));
+        return new ResponseResult<>(readBookService.getDetail(getMemberId(), readBookId));
     }
 
     @PostMapping("/v1/book/read")
     @ApiOperation(value = "읽은 책 저장")
     public String save(String str, String str2) {
-        return "Hello, " + str;
+        return str;
     }
 
     @PatchMapping("/v1/book/read/{read-book-id}")
@@ -51,13 +48,19 @@ public class ReadBookController {
 
     @DeleteMapping("/v1/book/read/{read-book-id}")
     @ApiOperation(value = "읽은 책 삭제")
-    public String delete(@PathVariable("read-book-id") Long readBookId, String str) {
-        return "Hello, " + str;
+    public ResponseResult<Boolean> delete(@PathVariable("read-book-id") Long readBookId) throws BadRequestException {
+        readBookService.delete(getMemberId(), readBookId);
+        return new ResponseResult<>(true);
     }
 
     @PostMapping("/v1/book/read/repeat")
     @ApiOperation(value = "다시 읽은 책 저장")
     public String saveRepeat(String str, String str2) {
         return "Hello, " + str;
+    }
+
+    // 임시 처리 : JWT 작업 후 수정
+    public Long getMemberId() {
+        return 1L;
     }
 }
