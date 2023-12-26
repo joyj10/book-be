@@ -33,12 +33,23 @@ public class WantBookService {
 
         List<WantBookDto> result = new ArrayList<>();
         for (WantBook wantBook : wantBooks) {
-            result.add(
-                    WantBookDto.builder()
-                        .id(wantBook.getId())
-                        .book(bookConverter.convert(wantBook.getBook()))
-                        .build());
+            result.add(convert(wantBook));
         }
         return result;
     }
+
+    private WantBookDto convert(WantBook wantBook) {
+        return WantBookDto.builder()
+                .id(wantBook.getId())
+                .book(bookConverter.convert(wantBook.getBook()))
+                .build();
+    }
+
+    public WantBookDto getDetail(Long memberId, Long wantBookId) {
+        WantBook wantBook = wantBookRepository.findByIdAndMember(wantBookId, memberRepository.getReferenceById(memberId))
+                .orElseThrow(IllegalArgumentException::new);
+        return convert(wantBook);
+    }
+
+
 }

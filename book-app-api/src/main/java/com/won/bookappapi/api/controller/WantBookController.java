@@ -21,16 +21,15 @@ public class WantBookController {
     @GetMapping
     @ApiOperation(value = "읽고 싶은 책 리스트")
     public ResponseResult<List<WantBookDto>> getList() {
-        // TODO jwt 토큰 처리
-        Long memberId = 1L;
-        List<WantBookDto> result = wantBookService.getList(memberId);
+        List<WantBookDto> result = wantBookService.getList(getMemberId());
         return new ResponseResult<>(result);
     }
 
     @GetMapping("/{want-book-id}")
     @ApiOperation(value = "읽고 싶은 책 상세 보기")
-    public String getDetail(@PathVariable("want-book-id") Long wantBookId, String str) {
-        return "Hello, " + str;
+    public ResponseResult<WantBookDto> getDetail(@PathVariable("want-book-id") Long wantBookId) {
+        WantBookDto result = wantBookService.getDetail(getMemberId(), wantBookId);
+        return new ResponseResult<>(result);
     }
 
     @PostMapping
@@ -49,5 +48,10 @@ public class WantBookController {
     @ApiOperation(value = "읽고 싶은 책 삭제 하기")
     public String delete(@PathVariable("want-book-id") Long wantBookId, String str) {
         return "Hello, " + str;
+    }
+
+    // 임시 처리 : JWT 작업 후 수정
+    public Long getMemberId() {
+        return 1L;
     }
 }
