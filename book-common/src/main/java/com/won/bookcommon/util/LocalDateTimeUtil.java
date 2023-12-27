@@ -1,5 +1,8 @@
 package com.won.bookcommon.util;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /**
  * LocalDateTimeUtil
  * <pre>
@@ -14,5 +17,9 @@ public class LocalDateTimeUtil {
     public static final String DATE_TIME_SECOND = "yyyy-MM-dd HH:mm:ss";
     public static final String DATE_TIME_MINUTE = "yyyy-MM-dd HH:mm";
     public static final String DATE_FULL_DASH = "yyyy-MM-dd";
+
+    public static LocalDate toLocalDate(String date) {
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_FULL_DASH));
+    }
 
 }

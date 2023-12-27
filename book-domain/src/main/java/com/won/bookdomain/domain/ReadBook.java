@@ -1,6 +1,7 @@
 package com.won.bookdomain.domain;
 
 import com.won.bookdomain.domain.base.BaseDateEntity;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,8 +11,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,10 +32,10 @@ public class ReadBook extends BaseDateEntity {
     private int readCount;
 
     @Column(nullable = false)
-    private float totalRating;
+    private double totalRating;
 
     @Column(nullable = false)
-    private LocalDateTime lastReadAt;
+    private LocalDate lastReadAt;
 
     @ColumnDefault("false")
     @Column(nullable = false)
@@ -67,14 +67,23 @@ public class ReadBook extends BaseDateEntity {
         readBookRating.setReadBook(this);
     }
 
-    public void addReadBookContent(ReadBookContent readBookContent) {
-        readBookContents.add(readBookContent);
-        readBookContent.setReadBook(this);
+    public void addReadBookContent(List<ReadBookContent> readBookContents) {
+        this.readBookContents.addAll(readBookContents);
+        for (ReadBookContent readBookContent : readBookContents) {
+            readBookContent.setReadBook(this);
+        }
     }
 
-    public void addReadBookReview(ReadBookReview readBookReview) {
-        readBookReviews.add(readBookReview);
-        readBookReview.setReadBook(this);
+    public void addReadBookReview(List<ReadBookReview> readBookReviews) {
+        this.readBookReviews.addAll(readBookReviews);
+        for (ReadBookReview readBookReview : readBookReviews) {
+            readBookReview.setReadBook(this);
+        }
+    }
+
+    public void setMemberAndBook(Member member, Book book) {
+        this.member = member;
+        this.book = book;
     }
 
     public void deleted() {

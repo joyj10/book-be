@@ -1,13 +1,13 @@
 package com.won.bookdomain.domain;
 
 import com.won.bookdomain.domain.base.BaseDateEntity;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * ReadBookRating
@@ -33,14 +33,22 @@ public class ReadBookRating extends BaseDateEntity {
     private int repeatOrder;
 
     @Column(nullable = false)
-    private LocalDateTime readAt;
+    private LocalDate readAt;
 
     @Column(nullable = false)
-    private float rating;
+    private double rating;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "read_book_id")
     private ReadBook readBook;
+
+    public static ReadBookRating createFirst(LocalDate readAt, double rating) {
+        return ReadBookRating.builder()
+                .repeatOrder(1)
+                .readAt(readAt)
+                .rating(rating)
+                .build();
+    }
 
     public void setReadBook(ReadBook readBook) {
         this.readBook = readBook;

@@ -8,6 +8,8 @@ import lombok.experimental.SuperBuilder;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 
 @Entity
 @Getter
@@ -26,6 +28,12 @@ public class ReadBookContent extends BaseDateEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "read_book_id")
     private ReadBook readBook;
+
+    public static ReadBookContent create(String content) {
+        return ReadBookContent.builder()
+                .content(content)
+                .build();
+    }
 
     public void setReadBook(ReadBook readBook) {
         this.readBook = readBook;

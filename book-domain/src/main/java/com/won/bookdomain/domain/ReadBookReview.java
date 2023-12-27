@@ -27,6 +27,12 @@ public class ReadBookReview extends BaseDateEntity {
     @JoinColumn(name = "read_book_id")
     private ReadBook readBook;
 
+    public static ReadBookReview create(String review) {
+        return ReadBookReview.builder()
+                .review(review)
+                .build();
+    }
+
     public void setReadBook(ReadBook readBook) {
         this.readBook = readBook;
     }

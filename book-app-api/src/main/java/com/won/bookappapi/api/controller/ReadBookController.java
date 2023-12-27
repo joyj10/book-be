@@ -1,10 +1,12 @@
 package com.won.bookappapi.api.controller;
 
+import com.won.bookappapi.api.request.ReadBookCreateRequest;
 import com.won.bookcommon.response.ResponseResult;
 import com.won.bookappapi.service.dto.ReadBookDto;
 import com.won.bookappapi.service.ReadBookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +38,9 @@ public class ReadBookController {
 
     @PostMapping("/v1/book/read")
     @ApiOperation(value = "읽은 책 저장")
-    public String save(String str, String str2) {
-        return str;
+    public ResponseResult<Long> save(@Valid @RequestBody ReadBookCreateRequest request) {
+        Long readBookId = readBookService.save(getMemberId(), request);
+        return new ResponseResult<>(readBookId);
     }
 
     @PatchMapping("/v1/book/read/{read-book-id}")
