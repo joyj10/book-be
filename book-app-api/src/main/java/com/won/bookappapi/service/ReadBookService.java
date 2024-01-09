@@ -1,8 +1,10 @@
 package com.won.bookappapi.service;
 
 import com.won.bookappapi.api.request.ReadBookCreateRequest;
+import com.won.bookappapi.api.request.ReadBookUpdateRequest;
 import com.won.bookappapi.converter.ReadBookConverter;
 import com.won.bookappapi.service.dto.ReadBookDto;
+import com.won.bookcommon.util.LocalDateTimeUtil;
 import com.won.bookdomain.domain.ReadBook;
 import com.won.bookdomain.domain.ReadBookContent;
 import com.won.bookdomain.domain.ReadBookRating;
@@ -79,5 +81,13 @@ public class ReadBookService {
 
         ReadBook saveReadBook = readBookRepository.save(readBook);
         return saveReadBook.getId();
+    }
+
+    @Transactional
+    public Long update(Long memberId, Long readBookId, ReadBookUpdateRequest request) {
+        ReadBook readBook = readBookRepository.findByIdAndMember(readBookId, memberRepository.getReferenceById(memberId))
+                .orElseThrow(IllegalArgumentException::new);
+        readBook.update(LocalDateTimeUtil.toLocalDate(request.getReadAt()), request.getRating());
+        return readBook.getId();
     }
 }

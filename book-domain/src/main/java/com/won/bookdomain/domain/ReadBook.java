@@ -21,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "read_book")
 @Where(clause = "is_deleted = false")
-@SQLDelete(sql = "UPDATE read_book SET is_deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE read_book SET is_deleted = true WHERE read_book_id = ?")
 public class ReadBook extends BaseDateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -90,4 +90,8 @@ public class ReadBook extends BaseDateEntity {
         this.isDeleted = true;
     }
 
+    public void update(LocalDate readAt, int rating) {
+        this.lastReadAt = readAt;
+        this.totalRating = rating; // TODO 이후 수정 필요(전체 평균으로 변경 필요)
+    }
 }

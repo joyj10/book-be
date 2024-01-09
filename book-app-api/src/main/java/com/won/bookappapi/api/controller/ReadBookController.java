@@ -1,6 +1,7 @@
 package com.won.bookappapi.api.controller;
 
 import com.won.bookappapi.api.request.ReadBookCreateRequest;
+import com.won.bookappapi.api.request.ReadBookUpdateRequest;
 import com.won.bookcommon.response.ResponseResult;
 import com.won.bookappapi.service.dto.ReadBookDto;
 import com.won.bookappapi.service.ReadBookService;
@@ -45,8 +46,9 @@ public class ReadBookController {
 
     @PatchMapping("/v1/book/read/{read-book-id}")
     @ApiOperation(value = "읽은 책 수정")
-    public String update(@PathVariable("read-book-id") Long readBookId, String str) {
-        return "Hello, " + str;
+    public ResponseResult<Long> update(@PathVariable("read-book-id") Long readBookId, @Valid @RequestBody ReadBookUpdateRequest request) {
+        Long id = readBookService.update(getMemberId(), readBookId, request);
+        return new ResponseResult<>(id);
     }
 
     @DeleteMapping("/v1/book/read/{read-book-id}")
@@ -56,10 +58,10 @@ public class ReadBookController {
         return new ResponseResult<>(true);
     }
 
-    @PostMapping("/v1/book/read/repeat")
+    @PostMapping("/v1/book/read/{read-book-id}/repeat")
     @ApiOperation(value = "다시 읽은 책 저장")
-    public String saveRepeat(String str, String str2) {
-        return "Hello, " + str;
+    public String saveRepeat(@PathVariable("read-book-id") Long readBookId, @Valid @RequestBody ReadBookCreateRequest request) {
+        return "Hello" + readBookId;
     }
 
     // 임시 처리 : JWT 작업 후 수정
