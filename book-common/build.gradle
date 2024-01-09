@@ -4,7 +4,4 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
-
-    // swagger
-    implementation "io.springfox:springfox-boot-starter:3.0.0"
 }

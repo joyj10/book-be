@@ -23,7 +23,7 @@ public class LogInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        log.info("modelAdnVie={}", modelAndView);
+        log.info("modelAdnView={}", modelAndView);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class LogInterceptor implements HandlerInterceptor {
         String requestURI = request.getRequestURI();
         String logId = UUID.randomUUID().toString().substring(0,8);
         request.setAttribute("logId", logId);
-        log.info("REQUEST [{}][uri={}][{}]", logId, requestURI, handler);
+        log.info("REQUEST afterCompletion [{}][uri={}][{}]", logId, requestURI, handler);
 
         if (ex != null) {
             log.error("REQUEST ERROR! ", ex);

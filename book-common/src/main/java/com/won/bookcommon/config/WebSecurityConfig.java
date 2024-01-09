@@ -15,8 +15,8 @@ public class WebSecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/v1/**").authenticated()
+                        .anyRequest().permitAll()
                 );
 
         return http.build();
@@ -25,15 +25,15 @@ public class WebSecurityConfig {
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
 		return web -> web.ignoring().requestMatchers(
-				"/v2/api-docs",
-				"/configuration/ui",
-				"/swagger-resources/**",
-				"/configuration/security",
-				"/swagger-ui.html",
-				"/swagger-ui/",
-				"/swagger-ui/**",
-				"/api/**",     //TODO api 패스는 삭제 필요
+				"/api/v3/api-docs",
+				"/api/configuration/ui",
+				"/api/swagger-resources/**",
+				"/api/configuration/security",
+				"/api/swagger-ui.html",
+				"/api/swagger-ui/",
+				"/api/swagger-ui/**",
 				"/webjars/**",
+				"/api/**",
 				"/logout"
 		);
 	}
