@@ -45,11 +45,10 @@ public class WantBookService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     public WantBookDto getDetail(Long memberId, Long wantBookId) {
         WantBook wantBook = wantBookRepository.findByIdAndMember(wantBookId, memberRepository.getReferenceById(memberId))
                 .orElseThrow(IllegalArgumentException::new);
         return convert(wantBook);
     }
-
-
 }

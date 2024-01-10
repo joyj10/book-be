@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "want_book")
 @Where(clause = "is_deleted = false")
-@SQLDelete(sql = "UPDATE want_book SET is_deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE want_book SET is_deleted = true WHERE want_book_id = ?")
 public class WantBook extends BaseDateEntity {
     @Id
     @GeneratedValue
