@@ -4,25 +4,51 @@ import com.won.bookappapi.api.request.BookCreateRequest;
 import com.won.bookappapi.service.dto.BookDto;
 import com.won.bookdomain.domain.Book;
 import com.won.bookdomain.repository.BookRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
+@Slf4j
 @SpringBootTest
 class BookServiceTest {
 
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private BookRepository bookRepository;
+
+    @DisplayName("책을 조회한다.")
+    @Test
+    void getBook() {
+        // given
+        Book book = Book.builder()
+                .title("java book")
+                .author("박자바")
+                .price(10000)
+                .publisher("자바출판사")
+                .isbn("1234")
+                .sort("IT")
+                .build();
+
+        Book saveBook = bookRepository.save(book);
+
+        // when
+        BookDto findBook = bookService.getBook(saveBook.getId());
+
+        // then
+        log.info("### findBook = {} ", findBook);;
+        assertThat(findBook.getAuthor()).isEqualTo(book.getAuthor());
+        assertThat(findBook.getTitle()).isEqualTo(book.getTitle());
+    }
+
     @DisplayName("책을 저장한다.")
     @Test
-    void saveBook() {
+    void save() {
         // given
         BookCreateRequest request = BookCreateRequest.builder()
                 .title("java book")
@@ -37,7 +63,10 @@ class BookServiceTest {
 
         // then
         BookDto findBook = bookService.getBook(saveId);
+        log.info("### findBook = {} ", findBook);;
         assertThat(findBook.getAuthor()).isEqualTo("박자바");
     }
+
+
 
 }

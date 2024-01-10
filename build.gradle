@@ -41,8 +41,6 @@ subprojects {
         // lombok
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
-        testCompileOnly 'org.projectlombok:lombok'
-        testAnnotationProcessor 'org.projectlombok:lombok'
 
         // lombok - mapstruct
         annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0' // v1.18.16+ 부터
@@ -53,10 +51,11 @@ subprojects {
 
         annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
+        // test
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-        // test : h2
         testImplementation 'com.h2database:h2'
+        testCompileOnly 'org.projectlombok:lombok'
+        testAnnotationProcessor 'org.projectlombok:lombok'
 
         // test : embedded-redis
         // implementation 'it.ozimov:embedded-redis:0.7.2'
