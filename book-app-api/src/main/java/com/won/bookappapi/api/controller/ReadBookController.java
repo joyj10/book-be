@@ -23,18 +23,18 @@ public class ReadBookController {
 
     @GetMapping("/v1/book/read")
     @ApiOperation(value = "읽은 책 리스트")
-    public ResponseResult<List<ReadBookDto>> getList() {
+    public ResponseResult<List<ReadBookDto>> getReadBooks() {
         // 읽은 책 리스트 조회
         /** [추가작업] 페이징 처리 필요 */
         /** [추가작업] 검색 기능 필요 */
         /** [추가작업] 정렬 기능 필요 */
-        return new ResponseResult<>(readBookService.getList(getMemberId()));
+        return new ResponseResult<>(readBookService.getReadBooks(getMemberId()));
     }
 
     @GetMapping("/v1/book/read/{read-book-id}")
     @ApiOperation(value = "읽은 책 상세")
-    public ResponseResult<ReadBookDto> getDetail(@PathVariable("read-book-id") Long readBookId) {
-        return new ResponseResult<>(readBookService.getDetail(getMemberId(), readBookId));
+    public ResponseResult<ReadBookDto> getReadBook(@PathVariable("read-book-id") Long readBookId) {
+        return new ResponseResult<>(readBookService.getReadBook(getMemberId(), readBookId));
     }
 
     @PostMapping("/v1/book/read")

@@ -86,6 +86,7 @@ public class ReadBook extends BaseDateEntity {
         this.book = book;
     }
 
+    // == 비즈니스 로직 ==
     public void deleted() {
         this.isDeleted = true;
     }
