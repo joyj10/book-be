@@ -42,8 +42,8 @@ public class ReadBook extends BaseDateEntity {
     private boolean isDeleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
@@ -81,8 +81,8 @@ public class ReadBook extends BaseDateEntity {
         }
     }
 
-    public void setMemberAndBook(Member member, Book book) {
-        this.member = member;
+    public void setMemberAndBook(User user, Book book) {
+        this.user = user;
         this.book = book;
     }
 

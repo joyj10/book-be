@@ -21,14 +21,14 @@ public class WantBookController {
     @GetMapping
     @ApiOperation(value = "읽고 싶은 책 리스트")
     public ResponseResult<List<WantBookDto>> getList() {
-        List<WantBookDto> result = wantBookService.getList(getMemberId());
+        List<WantBookDto> result = wantBookService.getList(getUserId());
         return new ResponseResult<>(result);
     }
 
     @GetMapping("/{want-book-id}")
     @ApiOperation(value = "읽고 싶은 책 상세 보기")
     public ResponseResult<WantBookDto> getDetail(@PathVariable("want-book-id") Long wantBookId) {
-        WantBookDto result = wantBookService.getDetail(getMemberId(), wantBookId);
+        WantBookDto result = wantBookService.getDetail(getUserId(), wantBookId);
         return new ResponseResult<>(result);
     }
 
@@ -51,7 +51,7 @@ public class WantBookController {
     }
 
     // 임시 처리 : JWT 작업 후 수정
-    public Long getMemberId() {
+    public Long getUserId() {
         return 1L;
     }
 }

@@ -1,4 +1,4 @@
-package com.won.bookcommon.config.auth;
+package com.won.bookdomain.config.auth;
 //
 //import com.cos.jwt.model.User;
 //import com.won.book.domain.member.Member;

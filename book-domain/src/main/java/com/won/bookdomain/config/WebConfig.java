@@ -1,4 +1,4 @@
-package com.won.bookcommon.config;
+package com.won.bookdomain.config;
 
 import com.won.bookcommon.interceptor.LogInterceptor;
 import org.springframework.context.annotation.Configuration;

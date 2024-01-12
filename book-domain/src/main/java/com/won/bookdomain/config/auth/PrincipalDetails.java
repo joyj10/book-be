@@ -1,4 +1,4 @@
-package com.won.bookcommon.config.auth;
+package com.won.bookdomain.config.auth;
 
 //@Data
 //public class PrincipalDetails implements UserDetails {

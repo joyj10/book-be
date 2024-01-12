@@ -32,8 +32,8 @@ public class WantBook extends BaseDateEntity {
     private boolean isDeleted;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
