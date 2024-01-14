@@ -12,9 +12,9 @@ import java.util.Random;
 @UtilityClass
 public class JwtKey {
     private static final Map<String, String> SECRET_KEY_SET = Map.of(
-            "key1", "SpringSecurityJWTPracticeProjectIsSoGoodAndThisProjectIsSoFunSpringSecurityJWTPracticeProjectIsSoGoodAndThisProjectIsSoFun",
-            "key2", "GoodSpringSecurityNiceSpringSecurityGoodSpringSecurityNiceSpringSecurityGoodSpringSecurityNiceSpringSecurityGoodSpringSecurityNiceSpringSecurity",
-            "key3", "HelloSpringSecurityHelloSpringSecurityHelloSpringSecurityHelloSpringSecurityHelloSpringSecurityHelloSpringSecurityHelloSpringSecurityHelloSpringSecurity"
+            "key1", "bookProject",
+            "key2", "GoodSpringSecurityNiceSpringSecurity",
+            "key3", "HelloSpringSecurity"
     );
     private static final String[] KID_SET = SECRET_KEY_SET.keySet().toArray(new String[0]);
     private static Random randomIndex = new Random();
