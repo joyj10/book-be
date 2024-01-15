@@ -65,5 +65,4 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     ) throws IOException {
         response.sendRedirect("/login");
     }
-
 }

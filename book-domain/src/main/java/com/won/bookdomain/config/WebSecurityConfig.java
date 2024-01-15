@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -28,18 +29,24 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class WebSecurityConfig {
 	private final UserService userService;
 	private final UserRepository userRepository;
-	private final AuthenticationManager authenticationManager;
+	private final AuthenticationConfiguration authenticationConfiguration;
 	private static final String[] whitelist = {
-			"/**/login",
-			"/**/logout",
-			"/**/v3/api-docs",
-			"/**/configuration/ui",
-			"/**/swagger-resources/**",
-			"/**/configuration/security",
-			"/**/swagger-ui.html",
-			"/**/swagger-ui/",
-			"/**/swagger-ui/**",
-			"/**/book/**"
+			"/api/login",
+			"/api/logout",
+			"/api/v3/api-docs",
+			"/api/configuration/ui",
+			"/api/swagger-resources/**",
+			"/api/configuration/security",
+			"/api/swagger-ui.html",
+			"/api/swagger-ui/",
+			"/api/swagger-ui/**",
+			"/api/book/**",
+			"/v3/api-docs/**",
+			"/swagger-ui/**",
+			"/api/v3/api-docs/**",
+			"/api/swagger-ui/**",
+			"/api/v3/api-docs",
+			"/api/swagger-ui"
 	};
 
 	@Bean
@@ -49,10 +56,10 @@ public class WebSecurityConfig {
 		// csrf
 		http.csrf(AbstractHttpConfigurer::disable);
 		// stateless
-		http.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+		http.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		// jwt filter
 		http.addFilterBefore(
-				new JwtAuthenticationFilter(authenticationManager),
+				new JwtAuthenticationFilter(authenticationManager(authenticationConfiguration)),
 				UsernamePasswordAuthenticationFilter.class)
 			.addFilterBefore(
 				new JwtAuthorizationFilter(userRepository),
@@ -61,6 +68,7 @@ public class WebSecurityConfig {
 		// authorization
 		http.authorizeHttpRequests(requests -> requests
 						.requestMatchers(whitelist).permitAll()
+						.requestMatchers("/api/**").permitAll()
 						.anyRequest().authenticated());
 		// login
 		http.formLogin(AbstractHttpConfigurer::disable);
@@ -81,5 +89,10 @@ public class WebSecurityConfig {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	}
+
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
 	}
 }
