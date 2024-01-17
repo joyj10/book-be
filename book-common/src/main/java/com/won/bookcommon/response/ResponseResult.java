@@ -10,8 +10,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @Getter
 public class ResponseResult<T> {
-    private int code;
     private int status;
+    private String code;
     private String message;
     private T result;
 
@@ -25,13 +25,13 @@ public class ResponseResult<T> {
         this.status = httpStatus.value();
     }
 
-    public ResponseResult(HttpStatus httpStatus, int code, String message) {
+    public ResponseResult(HttpStatus httpStatus, String code, String message) {
         this.status = httpStatus.value();
         this.code = code;
         this.message = message;
     }
 
-    public ResponseResult(int code, String message) {
+    public ResponseResult(String code, String message) {
         this.code = code;
         this.message = message;
     }

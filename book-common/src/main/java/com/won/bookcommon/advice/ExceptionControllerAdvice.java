@@ -1,5 +1,6 @@
 package com.won.bookcommon.advice;
 
+import com.won.bookcommon.exception.ExceptionCode;
 import com.won.bookcommon.response.ResponseResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,6 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseResult<Object> handlerIllegalArgumentException(IllegalArgumentException e) {
         log.error("[Controller error]", e);
-        return new ResponseResult<>(HttpStatus.BAD_REQUEST, 40000, e.getMessage());
+        return new ResponseResult<>(HttpStatus.BAD_REQUEST, ExceptionCode.BAD_REQUEST.getCode(), e.getMessage());
     }
 }
