@@ -18,8 +18,10 @@ public class TestController {
     @GetMapping("/ex")
     @ApiOperation(value = "예외 테스트")
     public String testEx(String str) {
-        if ("V".equals(str)) {
+        if ("i".equals(str)) {
             throw new IllegalArgumentException("error");
+        } else if ("500".equals(str)) {
+            throw new RuntimeException();
         }
         return "Hello, " + str;
     }

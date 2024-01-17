@@ -1,5 +1,6 @@
 package com.won.bookcommon.response;
 
+import com.won.bookcommon.exception.ExceptionCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,12 @@ public class ResponseResult<T> {
 
     public ResponseResult(String code, String message) {
         this.code = code;
+        this.message = message;
+    }
+
+    public ResponseResult(ExceptionCode exceptionCode, String message) {
+        this.status = exceptionCode.getStatus().value();
+        this.code = exceptionCode.getCode();
         this.message = message;
     }
 
