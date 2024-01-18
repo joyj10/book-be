@@ -6,6 +6,7 @@ import com.won.bookdomain.domain.User;
 import com.won.bookdomain.repository.UserRepository;
 import com.won.bookdomain.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +14,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +25,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import static com.won.bookdomain.config.GlobalValue.WHITE_LIST;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -30,24 +34,6 @@ public class WebSecurityConfig {
 	private final UserService userService;
 	private final UserRepository userRepository;
 	private final AuthenticationConfiguration authenticationConfiguration;
-	private static final String[] whitelist = {
-			"/api/login",
-			"/api/logout",
-			"/api/v3/api-docs",
-			"/api/configuration/ui",
-			"/api/swagger-resources/**",
-			"/api/configuration/security",
-			"/api/swagger-ui.html",
-			"/api/swagger-ui/",
-			"/api/swagger-ui/**",
-			"/api/book/**",
-			"/v3/api-docs/**",
-			"/swagger-ui/**",
-			"/api/v3/api-docs/**",
-			"/api/swagger-ui/**",
-			"/api/v3/api-docs",
-			"/api/swagger-ui"
-	};
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -67,8 +53,7 @@ public class WebSecurityConfig {
 		);
 		// authorization
 		http.authorizeHttpRequests(requests -> requests
-						.requestMatchers(whitelist).permitAll()
-						.requestMatchers("/api/**").permitAll()
+						.requestMatchers(WHITE_LIST).permitAll()
 						.anyRequest().authenticated());
 		// login
 		http.formLogin(AbstractHttpConfigurer::disable);
@@ -94,5 +79,12 @@ public class WebSecurityConfig {
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
+	}
+
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return web -> web.ignoring()
+						.requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+						.requestMatchers(WHITE_LIST);
 	}
 }
