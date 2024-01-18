@@ -11,5 +11,6 @@ public class GlobalValue {
             "/**/swagger-ui/**",
             "/**/swagger-resources/**",
             "/**/login",
+            "/**/join",
     };
 }
