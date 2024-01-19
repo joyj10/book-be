@@ -13,7 +13,7 @@ public class UserCreateRequest {
     @NotEmpty(message = "필수값 : 이름")
     private String name;
 
-    @Email(message = "잘 못된 이메일 형식")
+    @Email(message = "잘못된 이메일 형식")
     private String email;
 
     @NotEmpty(message = "필수값 : 비밀번호")
