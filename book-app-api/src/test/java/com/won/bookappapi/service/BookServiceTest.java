@@ -41,7 +41,6 @@ class BookServiceTest {
         BookDto findBook = bookService.getBook(saveBook.getId());
 
         // then
-        log.info("### findBook = {} ", findBook);;
         assertThat(findBook.getAuthor()).isEqualTo(book.getAuthor());
         assertThat(findBook.getTitle()).isEqualTo(book.getTitle());
     }
@@ -63,10 +62,6 @@ class BookServiceTest {
 
         // then
         BookDto findBook = bookService.getBook(saveId);
-        log.info("### findBook = {} ", findBook);;
         assertThat(findBook.getAuthor()).isEqualTo("박자바");
     }
-
-
-
 }
