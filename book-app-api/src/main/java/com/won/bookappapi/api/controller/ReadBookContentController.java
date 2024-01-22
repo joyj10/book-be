@@ -1,17 +1,27 @@
 package com.won.bookappapi.api.controller;
 
+import com.won.bookappapi.service.ReadBookContentService;
+import com.won.bookappapi.service.dto.ReadBookContentDto;
+import com.won.bookcommon.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
+@RequiredArgsConstructor
 @Api(tags = "3. Read Book content Controller")
 public class ReadBookContentController {
 
+    private final ReadBookContentService readBookContentService;
+
     @GetMapping("/vi/book/read/content")
     @ApiOperation(value = "읽은 책 글귀 리스트")
-    public String getList(String str) {
-        return "Hello, " + str;
+    public ResponseResult<List<ReadBookContentDto>> getContents(Long readBookId) {
+        List<ReadBookContentDto> result = readBookContentService.getContents(readBookId);
+        return new ResponseResult<>(result);
     }
 
     @PostMapping("/vi/book/read/content")
