@@ -1,6 +1,7 @@
 package com.won.bookappapi.service;
 
 import com.won.bookappapi.service.dto.ReadBookDto;
+import com.won.bookdomain.code.UserAuthRole;
 import com.won.bookdomain.domain.Book;
 import com.won.bookdomain.domain.User;
 import com.won.bookdomain.domain.ReadBook;
@@ -25,8 +26,7 @@ class ReadBookServiceTest {
 
     @Autowired ReadBookService readBookService;
     @Autowired ReadBookRepository readBookRepository;
-    @Autowired
-    UserRepository userRepository;
+    @Autowired UserRepository userRepository;
     @Autowired BookRepository bookRepository;
 
     private User user;
@@ -34,9 +34,11 @@ class ReadBookServiceTest {
     @BeforeEach
     void init() {
         this.user = userRepository.save(User.builder()
-                        .name("박이름")
-                        .email("test@test.com")
-                        .build());
+                .name("박자바")
+                .email("test@test.com")
+                .password("test1234")
+                .authority(UserAuthRole.USER)
+                .build());
     }
 
     private static ReadBook getReadBook(int totalRating, Book book, User user) {
