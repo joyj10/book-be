@@ -1,7 +1,9 @@
 package com.won.bookappapi.api.controller;
 
+import com.won.bookappapi.api.request.ReadBookContentCreateRequest;
 import com.won.bookappapi.service.ReadBookContentService;
 import com.won.bookappapi.service.dto.ReadBookContentDto;
+import com.won.bookcommon.response.EmptyResult;
 import com.won.bookcommon.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,8 +28,9 @@ public class ReadBookContentController {
 
     @PostMapping("/vi/book/read/content")
     @ApiOperation(value = "읽은 책 글귀 저장 하기")
-    public String save(String str, String str2) {
-        return "Hello, " + str;
+    public ResponseResult<EmptyResult> save(ReadBookContentCreateRequest createRequest) {
+        readBookContentService.save(createRequest);
+        return new ResponseResult<>(new EmptyResult());
     }
 
     @PatchMapping("/vi/book/read/content/{content-id}")

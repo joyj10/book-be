@@ -1,5 +1,6 @@
 package com.won.bookappapi.service;
 
+import com.won.bookappapi.api.request.ReadBookContentCreateRequest;
 import com.won.bookappapi.service.dto.ReadBookContentDto;
 import com.won.bookdomain.code.UserAuthRole;
 import com.won.bookdomain.domain.Book;
@@ -81,6 +82,29 @@ class ReadBookContentServiceTest {
         // then
         then(findContents).hasSize(contents.size());
         then(findContents.get(0).getContent()).isEqualTo(contents.get(0).getContent());
+    }
+
+    @DisplayName("읽은 책의 글귀를 저장한다.")
+    @Test
+    void save() {
+        // given
+        init();
+        ReadBookContentCreateRequest createRequest = ReadBookContentCreateRequest.builder()
+                .readBookId(readBook.getId())
+                .contents(List.of("좋은 글귀1", "좋은 글귀2"))
+                .build();
+
+        // when
+        contentService.save(createRequest);
+
+        // then
+        ReadBook findReadBook = readBookRepository.findById(readBook.getId())
+                .orElseThrow();
+
+        List<ReadBookContent> readBookContents = findReadBook.getReadBookContents();
+        then(readBookContents).hasSize(3)
+                .extracting("content")
+                .containsExactlyInAnyOrder("좋은 글귀1", "좋은 글귀2", "좋은 글귀");
     }
 
 }
