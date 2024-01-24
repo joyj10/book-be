@@ -2,6 +2,7 @@ package com.won.bookappapi.service;
 
 import com.won.bookappapi.api.request.ReadBookContentCreateRequest;
 import com.won.bookappapi.service.dto.ReadBookContentDto;
+import com.won.bookcommon.exception.BusinessException;
 import com.won.bookdomain.code.UserAuthRole;
 import com.won.bookdomain.domain.Book;
 import com.won.bookdomain.domain.ReadBook;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 
 @SpringBootTest
 @Slf4j
@@ -70,7 +72,7 @@ class ReadBookContentServiceTest {
         readBook = readBookRepository.save(readBook);
     }
 
-    @DisplayName("읽은 책의 글귀를 조회한다.")
+    @DisplayName("읽은 책 content를 조회한다.")
     @Test
     void getContents() {
         // given
@@ -84,7 +86,7 @@ class ReadBookContentServiceTest {
         then(findContents.get(0).getContent()).isEqualTo(contents.get(0).getContent());
     }
 
-    @DisplayName("읽은 책의 글귀를 저장한다.")
+    @DisplayName("읽은 책 content를 저장한다.")
     @Test
     void save() {
         // given
@@ -105,6 +107,37 @@ class ReadBookContentServiceTest {
         then(readBookContents).hasSize(3)
                 .extracting("content")
                 .containsExactlyInAnyOrder("좋은 글귀1", "좋은 글귀2", "좋은 글귀");
+    }
+
+    @DisplayName("읽은 책 content를 수정한다.")
+    @Test
+    void update() {
+        // given
+        init();
+        Long contentId = readBook.getReadBookContents().get(0).getId();
+        String changeContent = "변경된 문장";
+
+        // when
+        contentService.update(contentId, changeContent);
+
+        // then
+        ReadBookContent findContent = contentRepository.findById(contentId)
+                .orElseThrow();
+        then(findContent.getContent())
+                .isEqualTo(changeContent);
+    }
+
+    @DisplayName("읽은 책 content 수정 시 빈값 전달하면 예외가 발생한다.")
+    @Test
+    void updateFailContentBlank() {
+        // given
+        init();
+        Long contentId = readBook.getReadBookContents().get(0).getId();
+        String changeContent = "";
+
+        // when then
+        thenThrownBy(() -> contentService.update(contentId, changeContent))
+                .isExactlyInstanceOf(BusinessException.class);
     }
 
 }

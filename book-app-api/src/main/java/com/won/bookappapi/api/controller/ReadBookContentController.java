@@ -7,6 +7,7 @@ import com.won.bookcommon.response.EmptyResult;
 import com.won.bookcommon.response.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,15 +29,17 @@ public class ReadBookContentController {
 
     @PostMapping("/vi/book/read/content")
     @ApiOperation(value = "읽은 책 글귀 저장 하기")
-    public ResponseResult<EmptyResult> save(ReadBookContentCreateRequest createRequest) {
+    public ResponseResult<EmptyResult> save(@Valid @RequestBody ReadBookContentCreateRequest createRequest) {
         readBookContentService.save(createRequest);
         return new ResponseResult<>(new EmptyResult());
     }
 
     @PatchMapping("/vi/book/read/content/{content-id}")
     @ApiOperation(value = "읽은 책 글귀 수정 하기")
-    public String update(@PathVariable("content-id") Long contentId, String str) {
-        return "Hello, " + str;
+    public ResponseResult<EmptyResult> update(@PathVariable("content-id") Long contentId,
+                                              @Valid @RequestBody String content) {
+        readBookContentService.update(contentId, content);
+        return new ResponseResult<>(new EmptyResult());
     }
 
     @DeleteMapping("/vi/book/read/content/{content-id}")

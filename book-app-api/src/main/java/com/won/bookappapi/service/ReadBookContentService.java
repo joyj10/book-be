@@ -43,4 +43,12 @@ public class ReadBookContentService {
 
         readBook.addReadBookContent(contents);
     }
+
+    @Transactional
+    public void update(Long contentId, String content) {
+        ReadBookContent readBookContent = contentRepository.findById(contentId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        readBookContent.updateContent(content);
+    }
 }

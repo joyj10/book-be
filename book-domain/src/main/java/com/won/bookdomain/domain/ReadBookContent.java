@@ -1,5 +1,7 @@
 package com.won.bookdomain.domain;
 
+import com.won.bookcommon.exception.BusinessException;
+import com.won.bookcommon.exception.ExceptionCode;
 import com.won.bookdomain.domain.base.BaseDateEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -7,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import jakarta.persistence.*;
+import org.apache.coyote.BadRequestException;
 
 import java.util.List;
 
@@ -30,6 +33,10 @@ public class ReadBookContent extends BaseDateEntity {
     private ReadBook readBook;
 
     public static ReadBookContent create(String content) {
+        if (content.isBlank()) {
+            throw new BusinessException(ExceptionCode.INVALID_PARAMETER);
+        }
+
         return ReadBookContent.builder()
                 .content(content)
                 .build();
@@ -37,5 +44,12 @@ public class ReadBookContent extends BaseDateEntity {
 
     public void setReadBook(ReadBook readBook) {
         this.readBook = readBook;
+    }
+
+    public void updateContent(String content) {
+        if (content.isBlank()) {
+            throw new BusinessException(ExceptionCode.INVALID_PARAMETER);
+        }
+        this.content = content;
     }
 }
