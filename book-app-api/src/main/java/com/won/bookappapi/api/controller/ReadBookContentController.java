@@ -44,7 +44,8 @@ public class ReadBookContentController {
 
     @DeleteMapping("/vi/book/read/content/{content-id}")
     @ApiOperation(value = "읽은 책 글귀 삭제 하기")
-    public String delete(@PathVariable("content-id") Long contentId, String str) {
-        return "Hello, " + str;
+    public ResponseResult<EmptyResult> delete(@PathVariable("content-id") Long contentId) {
+        readBookContentService.delete(contentId);
+        return new ResponseResult<>(new EmptyResult());
     }
 }

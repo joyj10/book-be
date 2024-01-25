@@ -51,4 +51,9 @@ public class ReadBookContentService {
 
         readBookContent.updateContent(content);
     }
+
+    @Transactional
+    public void delete(Long contentId) {
+        contentRepository.deleteById(contentId);
+    }
 }

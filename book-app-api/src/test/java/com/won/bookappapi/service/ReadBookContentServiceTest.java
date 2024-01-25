@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
@@ -138,6 +139,21 @@ class ReadBookContentServiceTest {
         // when then
         thenThrownBy(() -> contentService.update(contentId, changeContent))
                 .isExactlyInstanceOf(BusinessException.class);
+    }
+
+    @DisplayName("읽은 책 content를 삭제한다.")
+    @Test
+    void delete() {
+        // given
+        init();
+        Long contentId = readBook.getReadBookContents().get(0).getId();
+
+        // when
+        contentService.delete(contentId);
+
+        // then
+        Optional<ReadBookContent> opt = contentRepository.findById(contentId);
+        then(opt.isPresent()).isFalse();
     }
 
 }
