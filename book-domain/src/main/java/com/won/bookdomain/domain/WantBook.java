@@ -43,6 +43,14 @@ public class WantBook extends BaseDateEntity {
     @OneToMany(mappedBy = "wantBook", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<WantBookReason> wantBookReasons = new ArrayList<>();
 
+    public static WantBook create(Book book, User user) {
+        return WantBook.builder()
+                .user(user)
+                .book(book)
+                .isDeleted(false)
+                .build();
+    }
+
     //== 연관 관계 편의 메서드 ==
     public void addWantBookReason(WantBookReason wantBookReason) {
         wantBookReasons.add(wantBookReason);

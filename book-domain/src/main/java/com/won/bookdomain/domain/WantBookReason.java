@@ -27,6 +27,12 @@ public class WantBookReason extends BaseDateEntity {
     @JoinColumn(name = "want_book_id")
     private WantBook wantBook;
 
+    public static WantBookReason create(String reason) {
+        return WantBookReason.builder()
+                .reason(reason)
+                .build();
+    }
+
     public void setReadBook(WantBook wantBook) {
         this.wantBook = wantBook;
     }

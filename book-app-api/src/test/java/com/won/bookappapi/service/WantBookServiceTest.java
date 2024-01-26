@@ -1,5 +1,6 @@
 package com.won.bookappapi.service;
 
+import com.won.bookappapi.api.request.WantBookCreateRequest;
 import com.won.bookdomain.code.UserAuthRole;
 import com.won.bookdomain.domain.Book;
 import com.won.bookdomain.domain.User;
@@ -52,6 +53,27 @@ class WantBookServiceTest {
                         .book(book)
                         .isDeleted(false)
                         .build());
+    }
+
+    @DisplayName("읽고 싶은 책을 저장한다.")
+    @Test
+    void save() {
+        // given
+        init();
+        WantBookCreateRequest createRequest = WantBookCreateRequest.builder()
+                .bookId(wantBook.getBook().getId())
+                .reason("읽고 싶은 책")
+                .build();
+
+        // when
+        Long saveWantBookId = wantBookService.save(wantBook.getUser().getId(), createRequest);
+
+        // then
+        WantBook findWantBook = wantBookRepository.findById(saveWantBookId)
+                .orElseThrow();
+
+        then(findWantBook.getBook().getId()).isEqualTo(createRequest.getBookId());
+        then(findWantBook.getWantBookReasons().get(0).getReason()).isEqualTo(createRequest.getReason());
     }
 
     @DisplayName("읽고 싶은 책을 삭제한다.")

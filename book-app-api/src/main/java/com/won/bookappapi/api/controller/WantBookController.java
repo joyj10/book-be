@@ -1,11 +1,13 @@
 package com.won.bookappapi.api.controller;
 
+import com.won.bookappapi.api.request.WantBookCreateRequest;
 import com.won.bookcommon.response.EmptyResult;
 import com.won.bookcommon.response.ResponseResult;
 import com.won.bookappapi.service.dto.WantBookDto;
 import com.won.bookappapi.service.WantBookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +37,9 @@ public class WantBookController {
 
     @PostMapping
     @ApiOperation(value = "읽고 싶은 책 저장 하기")
-    public String save(String str) {
-        return "Hello, " + str;
+    public ResponseResult<Long> save(@Valid @RequestBody WantBookCreateRequest createRequest) {
+        Long result = wantBookService.save(getUserId(), createRequest);
+        return new ResponseResult<>(result);
     }
 
     @PatchMapping("/{want-book-id}")

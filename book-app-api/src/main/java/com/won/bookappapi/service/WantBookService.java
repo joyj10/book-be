@@ -2,9 +2,14 @@ package com.won.bookappapi.service;
 
 
 
+import com.won.bookappapi.api.request.WantBookCreateRequest;
 import com.won.bookappapi.converter.BookConverter;
 import com.won.bookappapi.service.dto.WantBookDto;
+import com.won.bookdomain.domain.Book;
+import com.won.bookdomain.domain.User;
 import com.won.bookdomain.domain.WantBook;
+import com.won.bookdomain.domain.WantBookReason;
+import com.won.bookdomain.repository.BookRepository;
 import com.won.bookdomain.repository.UserRepository;
 import com.won.bookdomain.repository.WantBookReasonRepository;
 import com.won.bookdomain.repository.WantBookRepository;
@@ -24,6 +29,7 @@ public class WantBookService {
     private final UserRepository userRepository;
     private final WantBookReasonRepository wantBookReasonRepository;
     private final WantBookRepository wantBookRepository;
+    private final BookRepository bookRepository;
 
     private final BookConverter bookConverter;
 
@@ -53,7 +59,20 @@ public class WantBookService {
     }
 
     @Transactional
+    public Long save(Long userId, WantBookCreateRequest createRequest) {
+        Book book = bookRepository.getReferenceById(createRequest.getBookId());
+        User user = userRepository.getReferenceById(userId);
+
+        WantBook wantBook = WantBook.create(book, user);
+        wantBook.addWantBookReason(WantBookReason.create(createRequest.getReason()));
+
+        wantBookRepository.save(wantBook);
+        return wantBook.getId();
+    }
+
+    @Transactional
     public void delete(Long wantBookId) {
         wantBookRepository.deleteById(wantBookId);
     }
+
 }
