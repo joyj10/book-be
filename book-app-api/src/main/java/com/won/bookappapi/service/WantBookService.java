@@ -51,4 +51,9 @@ public class WantBookService {
                 .orElseThrow(IllegalArgumentException::new);
         return convert(wantBook);
     }
+
+    @Transactional
+    public void delete(Long wantBookId) {
+        wantBookRepository.deleteById(wantBookId);
+    }
 }

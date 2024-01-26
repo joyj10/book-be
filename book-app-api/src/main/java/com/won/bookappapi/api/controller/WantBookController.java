@@ -1,5 +1,6 @@
 package com.won.bookappapi.api.controller;
 
+import com.won.bookcommon.response.EmptyResult;
 import com.won.bookcommon.response.ResponseResult;
 import com.won.bookappapi.service.dto.WantBookDto;
 import com.won.bookappapi.service.WantBookService;
@@ -46,8 +47,9 @@ public class WantBookController {
 
     @DeleteMapping("/{want-book-id}")
     @ApiOperation(value = "읽고 싶은 책 삭제 하기")
-    public String delete(@PathVariable("want-book-id") Long wantBookId, String str) {
-        return "Hello, " + str;
+    public ResponseResult<EmptyResult> delete(@PathVariable("want-book-id") Long wantBookId) {
+        wantBookService.delete(wantBookId);
+        return new ResponseResult<>(new EmptyResult());
     }
 
     // 임시 처리 : JWT 작업 후 수정
