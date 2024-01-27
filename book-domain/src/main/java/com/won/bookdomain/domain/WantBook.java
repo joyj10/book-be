@@ -1,16 +1,17 @@
 package com.won.bookdomain.domain;
 
+import com.won.bookcommon.util.LocalDateTimeUtil;
 import com.won.bookdomain.domain.base.BaseDateEntity;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +28,8 @@ public class WantBook extends BaseDateEntity {
     @Column(name = "want_book_id")
     private Long id;
 
-    @ColumnDefault("false")
-    @Column(nullable = false)
-    private boolean isDeleted;
+    @Column(name = "add_at")
+    private LocalDate addAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -43,17 +43,24 @@ public class WantBook extends BaseDateEntity {
     @OneToMany(mappedBy = "wantBook", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<WantBookReason> wantBookReasons = new ArrayList<>();
 
-    public static WantBook create(Book book, User user) {
+    @ColumnDefault("false")
+    @Column(nullable = false)
+    private boolean isDeleted;
+
+    public static WantBook create(Book book, User user, @NonNull String addAt) {
         return WantBook.builder()
                 .user(user)
                 .book(book)
+                .addAt(LocalDateTimeUtil.toLocalDate(addAt))
                 .isDeleted(false)
                 .build();
     }
 
     //== 연관 관계 편의 메서드 ==
-    public void addWantBookReason(WantBookReason wantBookReason) {
-        wantBookReasons.add(wantBookReason);
-        wantBookReason.setReadBook(this);
+    public void addWantBookReasons(List<WantBookReason> wantBookReasons) {
+        this.wantBookReasons.addAll(wantBookReasons);
+        for (WantBookReason wantBookReason : wantBookReasons) {
+            wantBookReason.setReadBook(this);
+        }
     }
 }

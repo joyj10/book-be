@@ -1,7 +1,6 @@
 package com.won.bookappapi.service;
 
 
-
 import com.won.bookappapi.api.request.WantBookCreateRequest;
 import com.won.bookappapi.converter.BookConverter;
 import com.won.bookappapi.service.dto.WantBookDto;
@@ -63,8 +62,12 @@ public class WantBookService {
         Book book = bookRepository.getReferenceById(createRequest.getBookId());
         User user = userRepository.getReferenceById(userId);
 
-        WantBook wantBook = WantBook.create(book, user);
-        wantBook.addWantBookReason(WantBookReason.create(createRequest.getReason()));
+        WantBook wantBook = WantBook.create(book, user, createRequest.getAddAt());
+        wantBook.addWantBookReasons(
+                createRequest.getReasons().stream()
+                    .map(WantBookReason::create)
+                    .toList()
+        );
 
         wantBookRepository.save(wantBook);
         return wantBook.getId();

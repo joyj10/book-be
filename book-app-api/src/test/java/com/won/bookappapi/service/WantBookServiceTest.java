@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.BDDAssertions.then;
@@ -60,9 +61,11 @@ class WantBookServiceTest {
     void save() {
         // given
         init();
+        String reason = "읽고 싶은 책";
         WantBookCreateRequest createRequest = WantBookCreateRequest.builder()
                 .bookId(wantBook.getBook().getId())
-                .reason("읽고 싶은 책")
+                .addAt("2024-01-01")
+                .reasons(List.of(reason))
                 .build();
 
         // when
@@ -73,7 +76,7 @@ class WantBookServiceTest {
                 .orElseThrow();
 
         then(findWantBook.getBook().getId()).isEqualTo(createRequest.getBookId());
-        then(findWantBook.getWantBookReasons().get(0).getReason()).isEqualTo(createRequest.getReason());
+        then(findWantBook.getWantBookReasons().get(0).getReason()).isEqualTo(reason);
     }
 
     @DisplayName("읽고 싶은 책을 삭제한다.")
