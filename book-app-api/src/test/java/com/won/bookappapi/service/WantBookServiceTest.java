@@ -1,6 +1,8 @@
 package com.won.bookappapi.service;
 
 import com.won.bookappapi.api.request.WantBookCreateRequest;
+import com.won.bookappapi.api.request.WantBookUpdateRequest;
+import com.won.bookcommon.util.LocalDateTimeUtil;
 import com.won.bookdomain.code.UserAuthRole;
 import com.won.bookdomain.domain.Book;
 import com.won.bookdomain.domain.User;
@@ -9,6 +11,7 @@ import com.won.bookdomain.repository.BookRepository;
 import com.won.bookdomain.repository.UserRepository;
 import com.won.bookdomain.repository.WantBookRepository;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,10 +75,30 @@ class WantBookServiceTest {
         Long saveWantBookId = wantBookService.save(wantBook.getUser().getId(), createRequest);
 
         // then
-        WantBook findWantBook = wantBookRepository.findById(saveWantBookId)
-                .orElseThrow();
+        WantBook findWantBook = wantBookRepository.findById(saveWantBookId).orElseThrow();
 
         then(findWantBook.getBook().getId()).isEqualTo(createRequest.getBookId());
+        then(findWantBook.getWantBookReasons().get(0).getReason()).isEqualTo(reason);
+    }
+
+    @DisplayName("읽고 싶은 책을 수정한다.")
+    @Test
+    void update() {
+        // given
+        init();
+        String reason = "읽고 싶은 책 수정 이유";
+        String addAt = "2024-01-10";
+        WantBookUpdateRequest updateRequest = WantBookUpdateRequest.builder()
+                .addAt(addAt)
+                .reasons(List.of(reason))
+                .build();
+        // when
+        Long updateWantBookId = wantBookService.update(wantBook.getUser().getId(), wantBook.getId(), updateRequest);
+
+        // then
+        WantBook findWantBook = wantBookRepository.findById(updateWantBookId).orElseThrow();
+
+        then(findWantBook.getAddAt()).isEqualTo(LocalDateTimeUtil.toLocalDate(addAt));
         then(findWantBook.getWantBookReasons().get(0).getReason()).isEqualTo(reason);
     }
 

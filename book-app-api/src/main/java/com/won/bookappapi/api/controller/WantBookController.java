@@ -1,6 +1,7 @@
 package com.won.bookappapi.api.controller;
 
 import com.won.bookappapi.api.request.WantBookCreateRequest;
+import com.won.bookappapi.api.request.WantBookUpdateRequest;
 import com.won.bookcommon.response.EmptyResult;
 import com.won.bookcommon.response.ResponseResult;
 import com.won.bookappapi.service.dto.WantBookDto;
@@ -44,8 +45,10 @@ public class WantBookController {
 
     @PatchMapping("/{want-book-id}")
     @ApiOperation(value = "읽고 싶은 책 수정 하기")
-    public String update(@PathVariable("want-book-id") Long wantBookId, String str) {
-        return "Hello, " + str;
+    public ResponseResult<Long> update(@PathVariable("want-book-id") Long wantBookId,
+                                       @Valid @RequestBody WantBookUpdateRequest updateRequest) {
+        Long result = wantBookService.update(getUserId(), wantBookId, updateRequest);
+        return new ResponseResult<>(result);
     }
 
     @DeleteMapping("/{want-book-id}")

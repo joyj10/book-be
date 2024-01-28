@@ -56,10 +56,18 @@ public class WantBook extends BaseDateEntity {
                 .build();
     }
 
+    public void update(String addAt, List<WantBookReason> wantBookReasons) {
+        if (addAt != null) {
+            this.addAt = LocalDateTimeUtil.toLocalDate(addAt);
+        }
+
+        addWantBookReasons(wantBookReasons);
+    }
+
     //== 연관 관계 편의 메서드 ==
     public void addWantBookReasons(List<WantBookReason> wantBookReasons) {
-        this.wantBookReasons.addAll(wantBookReasons);
         for (WantBookReason wantBookReason : wantBookReasons) {
+            this.wantBookReasons.add(wantBookReason);
             wantBookReason.setReadBook(this);
         }
     }

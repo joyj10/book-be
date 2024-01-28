@@ -2,6 +2,7 @@ package com.won.bookappapi.service;
 
 
 import com.won.bookappapi.api.request.WantBookCreateRequest;
+import com.won.bookappapi.api.request.WantBookUpdateRequest;
 import com.won.bookappapi.converter.BookConverter;
 import com.won.bookappapi.service.dto.WantBookDto;
 import com.won.bookdomain.domain.Book;
@@ -12,6 +13,7 @@ import com.won.bookdomain.repository.BookRepository;
 import com.won.bookdomain.repository.UserRepository;
 import com.won.bookdomain.repository.WantBookReasonRepository;
 import com.won.bookdomain.repository.WantBookRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -63,13 +65,24 @@ public class WantBookService {
         User user = userRepository.getReferenceById(userId);
 
         WantBook wantBook = WantBook.create(book, user, createRequest.getAddAt());
-        wantBook.addWantBookReasons(
-                createRequest.getReasons().stream()
-                    .map(WantBookReason::create)
-                    .toList()
-        );
+        wantBook.addWantBookReasons(convertToWantBookReasons(createRequest.getReasons()));
 
         wantBookRepository.save(wantBook);
+        return wantBook.getId();
+    }
+
+    private static List<WantBookReason> convertToWantBookReasons(List<String> reasons) {
+        return reasons.stream()
+                .map(WantBookReason::create)
+                .toList();
+    }
+
+    @Transactional
+    public Long update(Long userId, Long wantBookId, WantBookUpdateRequest updateRequest) {
+        WantBook wantBook = wantBookRepository.findByIdAndUser(wantBookId, userRepository.getReferenceById(userId))
+                .orElseThrow(EntityNotFoundException::new);
+
+        wantBook.update(updateRequest.getAddAt(), convertToWantBookReasons(updateRequest.getReasons()));
         return wantBook.getId();
     }
 
