@@ -2,6 +2,7 @@ package com.won.bookappapi.api.controller;
 
 import com.won.bookappapi.api.request.ReadBookCreateRequest;
 import com.won.bookappapi.api.request.ReadBookUpdateRequest;
+import com.won.bookappapi.api.request.YearMonthRequest;
 import com.won.bookcommon.response.ResponseResult;
 import com.won.bookappapi.service.dto.ReadBookDto;
 import com.won.bookappapi.service.ReadBookService;
@@ -62,6 +63,12 @@ public class ReadBookController {
     @ApiOperation(value = "다시 읽은 책 저장")
     public String saveRepeat(@PathVariable("read-book-id") Long readBookId, @Valid @RequestBody ReadBookCreateRequest request) {
         return "Hello" + readBookId;
+    }
+
+    @GetMapping("/v1/book/read/month")
+    @ApiOperation(value = "월별 읽은 책 조회")
+    public ResponseResult<List<ReadBookDto>> getReadBookOfMonth(@Valid @RequestParam YearMonthRequest yearMonthRequest) {
+        return new ResponseResult<>(readBookService.getReadBookOfMonth(getUserId(), yearMonthRequest));
     }
 
     // 임시 처리 : JWT 작업 후 수정

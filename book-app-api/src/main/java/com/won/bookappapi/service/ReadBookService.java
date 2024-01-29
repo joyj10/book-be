@@ -2,6 +2,7 @@ package com.won.bookappapi.service;
 
 import com.won.bookappapi.api.request.ReadBookCreateRequest;
 import com.won.bookappapi.api.request.ReadBookUpdateRequest;
+import com.won.bookappapi.api.request.YearMonthRequest;
 import com.won.bookappapi.converter.ReadBookConverter;
 import com.won.bookappapi.service.dto.ReadBookDto;
 import com.won.bookcommon.util.LocalDateTimeUtil;
@@ -15,6 +16,7 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,13 +39,13 @@ public class ReadBookService {
      */
     @Transactional(readOnly = true)
     public List<ReadBookDto> getReadBooks(Long userId) {
-        List<ReadBook> readBooks = readBookRepository.findAllByUser(userRepository.getReferenceById(userId));
+        List<ReadBook> readBooks = readBookRepository.findAllByUser(getUser(userId));
         return readBookConverter.convert(readBooks);
     }
 
     @Transactional(readOnly = true)
     public ReadBookDto getReadBook(Long userId, Long readBookId) {
-        ReadBook readBook = readBookRepository.findByIdAndUser(readBookId, userRepository.getReferenceById(userId))
+        ReadBook readBook = readBookRepository.findByIdAndUser(readBookId, getUser(userId))
                 .orElseThrow(IllegalArgumentException::new);
         return readBookConverter.convert(readBook);
     }
@@ -58,7 +60,7 @@ public class ReadBookService {
         ReadBook readBook = request.toEntity();
 
         // 연관 관계 세팅
-        User user = userRepository.getReferenceById(userId);
+        User user = getUser(userId);
         Book book = bookRepository.getReferenceById(request.getBookId());
         readBook.setMemberAndBook(user, book);
 
@@ -89,7 +91,7 @@ public class ReadBookService {
 
     @Transactional
     public Long update(Long userId, Long readBookId, ReadBookUpdateRequest request) {
-        ReadBook readBook = readBookRepository.findByIdAndUser(readBookId, userRepository.getReferenceById(userId))
+        ReadBook readBook = readBookRepository.findByIdAndUser(readBookId, getUser(userId))
                 .orElseThrow(IllegalArgumentException::new);
         readBook.update(LocalDateTimeUtil.toLocalDate(request.getReadAt()), request.getRating());
         return readBook.getId();
@@ -97,12 +99,25 @@ public class ReadBookService {
 
     @Transactional
     public void delete(Long userId, Long readBookId) throws BadRequestException {
-        ReadBook readBook = readBookRepository.findByIdAndUser(readBookId, userRepository.getReferenceById(userId))
+        ReadBook readBook = readBookRepository.findByIdAndUser(readBookId, getUser(userId))
                 .orElseThrow(IllegalArgumentException::new);
 
         if (readBook.isDeleted()) {
             throw new BadRequestException();
         }
         readBook.deleted();
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReadBookDto> getReadBookOfMonth(Long userId, YearMonthRequest request) {
+        LocalDate startDate = LocalDateTimeUtil.getFirstDate(request.getYear(), request.getMonth());
+        LocalDate endDate = LocalDateTimeUtil.getLastDate(request.getYear(), request.getMonth());
+
+        List<ReadBook> readBooks = readBookRepository.findAllByUserAndLastReadAtBetween(getUser(userId), startDate, endDate);
+        return readBookConverter.convert(readBooks);
+    }
+
+    private User getUser(Long userId) {
+        return userRepository.getReferenceById(userId);
     }
 }

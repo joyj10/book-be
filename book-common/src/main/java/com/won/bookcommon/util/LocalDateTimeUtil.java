@@ -1,6 +1,7 @@
 package com.won.bookcommon.util;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -22,4 +23,12 @@ public class LocalDateTimeUtil {
         return LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_FULL_DASH));
     }
 
+    public static LocalDate getFirstDate(int year, int month) {
+        return LocalDate.of(year, month, 1);
+    }
+
+    public static LocalDate getLastDate(int year, int month) {
+        YearMonth yearMonth = YearMonth.from(LocalDate.of(year, month, 1));
+        return yearMonth.atEndOfMonth();
+    }
 }
