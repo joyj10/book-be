@@ -3,6 +3,9 @@ package com.won.bookappapi.api.controller;
 import com.won.bookappapi.api.request.ReadBookCreateRequest;
 import com.won.bookappapi.api.request.ReadBookUpdateRequest;
 import com.won.bookappapi.api.request.YearMonthRequest;
+import com.won.bookappapi.service.dto.ReadBookYearDto;
+import com.won.bookcommon.exception.BusinessException;
+import com.won.bookcommon.exception.ExceptionCode;
 import com.won.bookcommon.response.ResponseResult;
 import com.won.bookappapi.service.dto.ReadBookDto;
 import com.won.bookappapi.service.ReadBookService;
@@ -69,6 +72,19 @@ public class ReadBookController {
     @ApiOperation(value = "월별 읽은 책 조회")
     public ResponseResult<List<ReadBookDto>> getReadBookOfMonth(@Valid @RequestParam YearMonthRequest yearMonthRequest) {
         return new ResponseResult<>(readBookService.getReadBookOfMonth(getUserId(), yearMonthRequest));
+    }
+
+    @GetMapping("/v1/book/read/year")
+    @ApiOperation(value = "해당 년도 읽은 책 조회")
+    public ResponseResult<List<ReadBookYearDto>> getReadBookOfYear(int year) {
+        validYear(year);
+        return new ResponseResult<>(readBookService.getReadBookOfYear(getUserId(), year));
+    }
+
+    private void validYear(int year) {
+        if (String.valueOf(year).length() != 4) {
+            throw new BusinessException("년도는 4자리로 입력해야 합니다.", ExceptionCode.INVALID_PARAMETER);
+        }
     }
 
     // 임시 처리 : JWT 작업 후 수정

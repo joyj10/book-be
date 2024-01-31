@@ -5,6 +5,7 @@ import com.won.bookappapi.api.request.ReadBookUpdateRequest;
 import com.won.bookappapi.api.request.YearMonthRequest;
 import com.won.bookappapi.converter.ReadBookConverter;
 import com.won.bookappapi.service.dto.ReadBookDto;
+import com.won.bookappapi.service.dto.ReadBookYearDto;
 import com.won.bookcommon.util.LocalDateTimeUtil;
 import com.won.bookdomain.domain.*;
 import com.won.bookdomain.repository.BookRepository;
@@ -119,5 +120,11 @@ public class ReadBookService {
 
     private User getUser(Long userId) {
         return userRepository.getReferenceById(userId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReadBookYearDto> getReadBookOfYear(Long userId, int year) {
+        // TODO queryDSL 세팅 후 작업
+        return new ArrayList<>();
     }
 }
