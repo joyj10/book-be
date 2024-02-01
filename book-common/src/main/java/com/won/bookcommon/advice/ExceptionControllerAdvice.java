@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     protected ResponseResult<Object> handleException(Exception e) {
         log.error("handleException", e);
@@ -30,6 +31,7 @@ public class ExceptionControllerAdvice {
         return new ResponseResult<>(HttpStatus.BAD_REQUEST, ExceptionCode.INVALID_PARAMETER.getCode(), e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseResult<Object> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         ExceptionCode exceptionCode = ExceptionCode.INVALID_PARAMETER;
