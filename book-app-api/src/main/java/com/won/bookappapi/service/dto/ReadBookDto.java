@@ -4,7 +4,8 @@ package com.won.bookappapi.service.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 public class ReadBookDto {
     private String title;
     private String sort;

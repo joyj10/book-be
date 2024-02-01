@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class ReadBookCreateRequest {
     @ApiModelProperty(value = "읽은 날", required = true)
     private String readAt;
 
-    @Positive
+    @Range(min = 0, max = 5)
     @ApiModelProperty(value = "평점", required = true)
     private int rating;
 
