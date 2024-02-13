@@ -1,37 +1,26 @@
 package com.won.bookappapi.api.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.won.bookappapi.ControllerTestSupport;
 import com.won.bookappapi.api.request.ReadBookCreateRequest;
-import com.won.bookappapi.service.ReadBookService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = ReadBookController.class)
-class ReadBookControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @MockBean
-    private ReadBookService readBookService;
+class ReadBookControllerTest extends ControllerTestSupport {
 
     @DisplayName("읽은 책을 저장한다.")
     @Test
@@ -46,7 +35,7 @@ class ReadBookControllerTest {
                 .build();
 
         // when // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/v1/book/read").with(csrf())
+        mockMvc.perform(post("/v1/book/read").with(csrf())
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -66,7 +55,7 @@ class ReadBookControllerTest {
                 .build();
 
         // when // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/v1/book/read").with(csrf())
+        mockMvc.perform(post("/v1/book/read").with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -89,7 +78,7 @@ class ReadBookControllerTest {
                 .build();
 
         // when // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/v1/book/read").with(csrf())
+        mockMvc.perform(post("/v1/book/read").with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -112,7 +101,7 @@ class ReadBookControllerTest {
                 .build();
 
         // when // then
-        mockMvc.perform(MockMvcRequestBuilders.post("/v1/book/read").with(csrf())
+        mockMvc.perform(post("/v1/book/read").with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -120,5 +109,56 @@ class ReadBookControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.code").value("CB0001"));
+    }
+
+    @DisplayName("회원의 전체 읽은 책을 조회한다.")
+    @Test
+    @WithMockUser(username = "테스트")
+    void getReadBooks() throws Exception {
+        // given
+        // when // then
+        mockMvc.perform(
+                    get("/v1/book/read")
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("success"))
+                .andExpect(jsonPath("$.result").isArray());
+    }
+
+    @DisplayName("읽은 책의 상세 데이터를 조회한다.")
+    @Test
+    @WithMockUser(username = "테스트")
+    void getReadBook() {
+    }
+
+    @DisplayName("")
+    @Test
+    void update() {
+    }
+
+    @DisplayName("")
+    @Test
+    void delete() {
+    }
+
+    @DisplayName("")
+    @Test
+    void saveRepeat() {
+    }
+
+    @DisplayName("")
+    @Test
+    void getReadBookOfMonth() {
+    }
+
+    @DisplayName("")
+    @Test
+    void getReadBookOfYear() {
+    }
+
+    @DisplayName("")
+    @Test
+    void getUserId() {
     }
 }
