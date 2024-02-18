@@ -1,13 +1,18 @@
 package com.won.bookdomain.domain;
 
+import com.won.bookcommon.exception.BusinessException;
+import com.won.bookcommon.exception.ExceptionCode;
 import com.won.bookdomain.domain.base.BaseDateEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+
+import static com.won.bookcommon.exception.ExceptionCode.INVALID_PARAMETER;
 
 /**
  * ReadBookRating
@@ -20,7 +25,6 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "read_book_rating")
 public class ReadBookRating extends BaseDateEntity {
@@ -42,7 +46,17 @@ public class ReadBookRating extends BaseDateEntity {
     @JoinColumn(name = "read_book_id")
     private ReadBook readBook;
 
+    @Builder
+    private ReadBookRating(int repeatOrder, LocalDate readAt, double rating) {
+        this.repeatOrder = repeatOrder;
+        this.readAt = readAt;
+        this.rating = rating;
+    }
+
     public static ReadBookRating createFirst(LocalDate readAt, double rating) {
+        if (readAt == null || rating < 0 || rating > 5) {
+            throw new BusinessException(INVALID_PARAMETER);
+        }
         return ReadBookRating.builder()
                 .repeatOrder(1)
                 .readAt(readAt)

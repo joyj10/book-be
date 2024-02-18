@@ -14,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 
 @SpringBootTest
+@Transactional
 class ReadBookServiceTest {
 
     @Autowired ReadBookService readBookService;
@@ -43,14 +45,10 @@ class ReadBookServiceTest {
     }
 
     private static ReadBook getReadBook(int totalRating, Book book, User user) {
-        return ReadBook.builder()
-                .readCount(1)
-                .totalRating(totalRating)
-                .lastReadAt(LocalDate.now())
-                .isDeleted(false)
-                .book(book)
-                .user(user)
-                .build();
+        ReadBook readBook = ReadBook.create(1, totalRating, LocalDate.now());
+        readBook.setMemberAndBook(user, book);
+
+        return readBook;
     }
 
     private static Book getBook(String title, String isbn) {

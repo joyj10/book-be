@@ -14,6 +14,8 @@ public enum ExceptionCode {
     INVALID_PARAMETER(BAD_REQUEST, "CB0001", "Invalid Input Parameter"),
     ENTITY_NOT_FOUND(BAD_REQUEST, "CB0002", "Entity Not Found"),
 
+
+
     // Common - 500 INTERNAL_SERVER_ERROR
     INTERNAL_SERVER(INTERNAL_SERVER_ERROR, "CI0001", "Internal Server Error")
     ;

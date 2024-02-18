@@ -18,13 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.BDDAssertions.then;
 
 @SpringBootTest
-@Slf4j
 @Transactional
 class WantBookServiceTest {
 
@@ -55,7 +55,8 @@ class WantBookServiceTest {
         wantBook = wantBookRepository.save(WantBook.builder()
                         .user(user)
                         .book(book)
-                        .isDeleted(false)
+                        .addAt(LocalDate.now())
+                        .deleted(false)
                         .build());
     }
 

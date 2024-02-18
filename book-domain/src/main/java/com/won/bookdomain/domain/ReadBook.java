@@ -1,12 +1,11 @@
 package com.won.bookdomain.domain;
 
+import com.won.bookcommon.exception.BusinessException;
+import com.won.bookcommon.exception.ExceptionCode;
+import com.won.bookcommon.util.LocalDateTimeUtil;
 import com.won.bookdomain.domain.base.BaseDateEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -15,13 +14,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.won.bookcommon.exception.ExceptionCode.INVALID_PARAMETER;
+
 @Entity
 @Getter
-@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "read_book")
-@Where(clause = "is_deleted = false")
-@SQLDelete(sql = "UPDATE read_book SET is_deleted = true WHERE read_book_id = ?")
+@Where(clause = "deleted = false")
+@SQLDelete(sql = "UPDATE read_book SET deleted = true WHERE read_book_id = ?")
 public class ReadBook extends BaseDateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +39,7 @@ public class ReadBook extends BaseDateEntity {
 
     @ColumnDefault("false")
     @Column(nullable = false)
-    private boolean isDeleted;
+    private boolean deleted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -49,17 +49,36 @@ public class ReadBook extends BaseDateEntity {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @Builder.Default
     @OneToMany(mappedBy = "readBook", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ReadBookRating> readBookRatings = new ArrayList<>();
 
-    @Builder.Default
     @OneToMany(mappedBy = "readBook", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ReadBookContent> readBookContents = new ArrayList<>();
 
-    @Builder.Default
     @OneToMany(mappedBy = "readBook", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ReadBookReview> readBookReviews = new ArrayList<>();
+
+    @Builder
+    private ReadBook(int readCount, double totalRating, @NonNull LocalDate lastReadAt, boolean deleted) {
+        this.readCount = readCount;
+        this.totalRating = totalRating;
+        this.lastReadAt = lastReadAt;
+        this.deleted = deleted;
+    }
+
+    public static ReadBook create(int readCount, double totalRating, @NonNull LocalDate lastReadAt) {
+        if (readCount <= 0 || totalRating > 5 || totalRating < 0) {
+            throw new BusinessException(INVALID_PARAMETER);
+        }
+
+        return ReadBook.builder()
+                .readCount(1)
+                .totalRating(totalRating)
+                .lastReadAt(lastReadAt)
+                .deleted(false)
+                .build();
+    }
+
 
     //== 연관 관계 편의 메서드 ==
     public void addReadBookRating(ReadBookRating readBookRating) {
@@ -88,7 +107,7 @@ public class ReadBook extends BaseDateEntity {
 
     // == 비즈니스 로직 ==
     public void deleted() {
-        this.isDeleted = true;
+        this.deleted = true;
     }
 
     public void update(LocalDate readAt, int rating) {

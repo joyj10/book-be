@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -39,11 +40,7 @@ public class ReadBookCreateRequest {
     private List<String> contents;
 
     public ReadBook toEntity() {
-        return ReadBook.builder()
-                .readCount(1)
-                .totalRating(rating)
-                .lastReadAt(LocalDateTimeUtil.toLocalDate(readAt))
-                .isDeleted(false)
-                .build();
+        LocalDate lastReadAt = LocalDateTimeUtil.toLocalDate(readAt);
+        return ReadBook.create(1, rating, lastReadAt);
     }
 }

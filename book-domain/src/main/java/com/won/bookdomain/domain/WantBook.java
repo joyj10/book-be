@@ -17,11 +17,10 @@ import java.util.List;
 
 @Entity
 @Getter
-@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "want_book")
-@Where(clause = "is_deleted = false")
-@SQLDelete(sql = "UPDATE want_book SET is_deleted = true WHERE want_book_id = ?")
+@Where(clause = "deleted = false")
+@SQLDelete(sql = "UPDATE want_book SET deleted = true WHERE want_book_id = ?")
 public class WantBook extends BaseDateEntity {
     @Id
     @GeneratedValue
@@ -39,20 +38,27 @@ public class WantBook extends BaseDateEntity {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @Builder.Default
     @OneToMany(mappedBy = "wantBook", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<WantBookReason> wantBookReasons = new ArrayList<>();
 
     @ColumnDefault("false")
     @Column(nullable = false)
-    private boolean isDeleted;
+    private boolean deleted;
 
-    public static WantBook create(Book book, User user, @NonNull String addAt) {
+    @Builder
+    private WantBook(Book book, User user, LocalDate addAt, boolean deleted) {
+        this.book = book;
+        this.user = user;
+        this.addAt = addAt;
+        this.deleted = deleted;
+    }
+
+    public static WantBook create(@NonNull Book book, @NonNull User user, @NonNull String addAt) {
         return WantBook.builder()
                 .user(user)
                 .book(book)
                 .addAt(LocalDateTimeUtil.toLocalDate(addAt))
-                .isDeleted(false)
+                .deleted(false)
                 .build();
     }
 

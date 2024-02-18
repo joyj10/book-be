@@ -4,6 +4,7 @@ import com.won.bookcommon.exception.BusinessException;
 import com.won.bookcommon.exception.ExceptionCode;
 import com.won.bookdomain.domain.base.BaseDateEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -13,10 +14,11 @@ import org.apache.coyote.BadRequestException;
 
 import java.util.List;
 
+import static com.won.bookcommon.exception.ExceptionCode.INVALID_PARAMETER;
+
 
 @Entity
 @Getter
-@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "read_book_content")
 public class ReadBookContent extends BaseDateEntity {
@@ -31,6 +33,11 @@ public class ReadBookContent extends BaseDateEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "read_book_id")
     private ReadBook readBook;
+
+    @Builder
+    private ReadBookContent(String content) {
+        this.content = content;
+    }
 
     public static ReadBookContent create(String content) {
         if (content.isBlank()) {

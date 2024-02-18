@@ -1,17 +1,15 @@
 package com.won.bookdomain.domain;
 
 import com.won.bookdomain.domain.base.BaseDateEntity;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
-
 import jakarta.persistence.*;
+import lombok.*;
+
 import java.time.LocalDate;
 
 
 @ToString
 @Entity
 @Getter
-@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "book")
 public class Book extends BaseDateEntity {

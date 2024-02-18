@@ -64,9 +64,7 @@ class ReadBookContentServiceTest {
                 .readCount(1)
                 .totalRating(5)
                 .lastReadAt(LocalDate.now())
-                .isDeleted(false)
-                .book(book)
-                .user(user)
+                .deleted(false)
                 .build();
 
         readBook.addReadBookContent(contents);
