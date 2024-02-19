@@ -3,11 +3,11 @@ package com.won.bookappapi.api.request;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 @Data
 @NoArgsConstructor
@@ -19,7 +19,7 @@ public class ReadBookUpdateRequest {
     @ApiModelProperty(value = "읽은 날", required = true)
     private String readAt;
 
-    @Positive
+    @Range(min = 0, max = 5)
     @ApiModelProperty(value = "평점", required = true)
     private int rating;
 }

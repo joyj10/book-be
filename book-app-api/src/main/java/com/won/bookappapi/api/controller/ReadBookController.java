@@ -25,7 +25,7 @@ public class ReadBookController {
 
     private final ReadBookService readBookService;
 
-    @GetMapping("/v1/book/read")
+    @GetMapping("/v1/books/read")
     @ApiOperation(value = "읽은 책 리스트")
     public ResponseResult<List<ReadBookDto>> getReadBooks() {
         // 읽은 책 리스트 조회
@@ -35,46 +35,47 @@ public class ReadBookController {
         return new ResponseResult<>(readBookService.getReadBooks(getUserId()));
     }
 
-    @GetMapping("/v1/book/read/{read-book-id}")
+    @GetMapping("/v1/books/read/{read-book-id}")
     @ApiOperation(value = "읽은 책 상세")
     public ResponseResult<ReadBookDto> getReadBook(@PathVariable("read-book-id") Long readBookId) {
         return new ResponseResult<>(readBookService.getReadBook(getUserId(), readBookId));
     }
 
-    @PostMapping("/v1/book/read")
+    @PostMapping("/v1/books/read")
     @ApiOperation(value = "읽은 책 저장")
     public ResponseResult<Long> save(@Valid @RequestBody ReadBookCreateRequest request) {
         Long readBookId = readBookService.save(getUserId(), request);
         return new ResponseResult<>(readBookId);
     }
 
-    @PatchMapping("/v1/book/read/{read-book-id}")
+    @PatchMapping("/v1/books/read/{read-book-id}")
     @ApiOperation(value = "읽은 책 수정")
-    public ResponseResult<Long> update(@PathVariable("read-book-id") Long readBookId, @Valid @RequestBody ReadBookUpdateRequest request) {
+    public ResponseResult<Long> update(@PathVariable("read-book-id") Long readBookId,
+                                       @Valid @RequestBody ReadBookUpdateRequest request) {
         Long id = readBookService.update(getUserId(), readBookId, request);
         return new ResponseResult<>(id);
     }
 
-    @DeleteMapping("/v1/book/read/{read-book-id}")
+    @DeleteMapping("/v1/books/read/{read-book-id}")
     @ApiOperation(value = "읽은 책 삭제")
-    public ResponseResult<Boolean> delete(@PathVariable("read-book-id") Long readBookId) throws BadRequestException {
+    public ResponseResult<Boolean> delete(@PathVariable("read-book-id") Long readBookId) {
         readBookService.delete(getUserId(), readBookId);
         return new ResponseResult<>(true);
     }
 
-    @PostMapping("/v1/book/read/{read-book-id}/repeat")
+    @PostMapping("/v1/books/read/{read-book-id}/repeat")
     @ApiOperation(value = "다시 읽은 책 저장")
     public String saveRepeat(@PathVariable("read-book-id") Long readBookId, @Valid @RequestBody ReadBookCreateRequest request) {
         return "Hello" + readBookId;
     }
 
-    @GetMapping("/v1/book/read/month")
+    @GetMapping("/v1/books/read/month")
     @ApiOperation(value = "월별 읽은 책 조회")
     public ResponseResult<List<ReadBookDto>> getReadBookOfMonth(@Valid @RequestParam YearMonthRequest yearMonthRequest) {
         return new ResponseResult<>(readBookService.getReadBookOfMonth(getUserId(), yearMonthRequest));
     }
 
-    @GetMapping("/v1/book/read/year")
+    @GetMapping("/v1/books/read/year")
     @ApiOperation(value = "해당 년도 읽은 책 조회")
     public ResponseResult<List<ReadBookYearDto>> getReadBookOfYear(int year) {
         validYear(year);
@@ -88,7 +89,7 @@ public class ReadBookController {
     }
 
     // 임시 처리 : JWT 작업 후 수정
-    public Long getUserId() {
+    private Long getUserId() {
         return 1L;
     }
 }

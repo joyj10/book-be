@@ -9,11 +9,10 @@ import com.won.bookappapi.service.dto.ReadBookYearDto;
 import com.won.bookcommon.util.LocalDateTimeUtil;
 import com.won.bookdomain.domain.*;
 import com.won.bookdomain.repository.BookRepository;
-import com.won.bookdomain.repository.UserRepository;
 import com.won.bookdomain.repository.ReadBookRepository;
+import com.won.bookdomain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -99,12 +98,12 @@ public class ReadBookService {
     }
 
     @Transactional
-    public void delete(Long userId, Long readBookId) throws BadRequestException {
+    public void delete(Long userId, Long readBookId) {
         ReadBook readBook = readBookRepository.findByIdAndUser(readBookId, getUser(userId))
                 .orElseThrow(IllegalArgumentException::new);
 
         if (readBook.isDeleted()) {
-            throw new BadRequestException();
+            throw new IllegalArgumentException();
         }
         readBook.deleted();
     }
