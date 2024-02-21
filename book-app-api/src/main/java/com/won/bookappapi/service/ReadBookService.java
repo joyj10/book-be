@@ -67,7 +67,7 @@ public class ReadBookService {
         ReadBookRating readBookRating = ReadBookRating.createFirst(readBook.getLastReadAt(), readBook.getTotalRating());
         readBook.addReadBookRating(readBookRating);
 
-        addReadBookContent(request.getContents(), readBook);
+        addReadBookContents(request.getContents(), readBook);
         addReadBookReviews(request.getReviews(), readBook);
 
         return readBook;
@@ -81,7 +81,7 @@ public class ReadBookService {
         readBook.addReadBookReview(saveReviews);
     }
 
-    private static void addReadBookContent(List<String> contents, ReadBook readBook) {
+    private static void addReadBookContents(List<String> contents, ReadBook readBook) {
         List<ReadBookContent> saveContents = new ArrayList<>();
         for (String content : contents) {
             saveContents.add(ReadBookContent.create(content));
