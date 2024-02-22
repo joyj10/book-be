@@ -3,7 +3,7 @@ server:
   servlet:
     context-path: /api
 
-debug: false
+debug: true
 
 spring:
   config:
@@ -30,3 +30,7 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+logging:
+  level:
+    root: DEBUG
