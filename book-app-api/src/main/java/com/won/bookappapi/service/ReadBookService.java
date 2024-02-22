@@ -101,10 +101,6 @@ public class ReadBookService {
     public void delete(Long userId, Long readBookId) {
         ReadBook readBook = readBookRepository.findByIdAndUser(readBookId, getUser(userId))
                 .orElseThrow(IllegalArgumentException::new);
-
-        if (readBook.isDeleted()) {
-            throw new IllegalArgumentException();
-        }
         readBook.deleted();
     }
 

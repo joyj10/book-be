@@ -19,6 +19,10 @@ public class LocalDateTimeUtil {
     public static final String DATE_TIME_MINUTE = "yyyy-MM-dd HH:mm";
     public static final String DATE_FULL_DASH = "yyyy-MM-dd";
 
+    public static String toString(LocalDate localDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FULL_DASH);
+        return localDate.format(formatter);
+    }
     public static LocalDate toLocalDate(String date) {
         return LocalDate.parse(date, DateTimeFormatter.ofPattern(DATE_FULL_DASH));
     }

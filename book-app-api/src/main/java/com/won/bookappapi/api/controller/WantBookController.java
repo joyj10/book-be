@@ -24,15 +24,15 @@ public class WantBookController {
 
     @GetMapping
     @ApiOperation(value = "읽고 싶은 책 리스트")
-    public ResponseResult<List<WantBookDto>> getList() {
-        List<WantBookDto> result = wantBookService.getList(getUserId());
+    public ResponseResult<List<WantBookDto>> getWantBooks() {
+        List<WantBookDto> result = wantBookService.getWantBooks(getUserId());
         return new ResponseResult<>(result);
     }
 
     @GetMapping("/{want-book-id}")
     @ApiOperation(value = "읽고 싶은 책 상세 보기")
-    public ResponseResult<WantBookDto> getDetail(@PathVariable("want-book-id") Long wantBookId) {
-        WantBookDto result = wantBookService.getDetail(getUserId(), wantBookId);
+    public ResponseResult<WantBookDto> getWantBook(@PathVariable("want-book-id") Long wantBookId) {
+        WantBookDto result = wantBookService.getWantBook(getUserId(), wantBookId);
         return new ResponseResult<>(result);
     }
 

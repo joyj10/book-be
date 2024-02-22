@@ -5,6 +5,8 @@ import com.won.bookappapi.api.request.WantBookCreateRequest;
 import com.won.bookappapi.api.request.WantBookUpdateRequest;
 import com.won.bookappapi.converter.BookConverter;
 import com.won.bookappapi.service.dto.WantBookDto;
+import com.won.bookappapi.service.dto.WantBookReasonSimpleDto;
+import com.won.bookcommon.util.LocalDateTimeUtil;
 import com.won.bookdomain.domain.Book;
 import com.won.bookdomain.domain.User;
 import com.won.bookdomain.domain.WantBook;
@@ -35,26 +37,42 @@ public class WantBookService {
     private final BookConverter bookConverter;
 
     @Transactional(readOnly = true)
-    public List<WantBookDto> getList(Long userId) {
-        List<WantBook> wantBooks = wantBookRepository.findAllByUser(userRepository.getReferenceById(userId));
+    public List<WantBookDto> getWantBooks(Long userId) {
+        List<WantBook> wantBooks = wantBookRepository.findAllWithBookByUserId(userId);
 
         List<WantBookDto> result = new ArrayList<>();
         for (WantBook wantBook : wantBooks) {
-            result.add(convert(wantBook));
+            result.add(convert2(wantBook));
         }
         return result;
+    }
+
+    private WantBookDto convert2(WantBook wantBook) {
+        return WantBookDto.builder()
+                .id(wantBook.getId())
+                .addAt(LocalDateTimeUtil.toString(wantBook.getAddAt()))
+                .book(bookConverter.convert(wantBook.getBook()))
+                .build();
     }
 
     private WantBookDto convert(WantBook wantBook) {
         return WantBookDto.builder()
                 .id(wantBook.getId())
+                .addAt(LocalDateTimeUtil.toString(wantBook.getAddAt()))
                 .book(bookConverter.convert(wantBook.getBook()))
+                .wantBookReasons(conventReason(wantBook.getWantBookReasons()))
                 .build();
     }
 
+    private List<WantBookReasonSimpleDto> conventReason(List<WantBookReason> wantBookReasons) {
+        return wantBookReasons.stream()
+                .map(WantBookReasonSimpleDto::from)
+                .toList();
+    }
+
     @Transactional(readOnly = true)
-    public WantBookDto getDetail(Long userId, Long wantBookId) {
-        WantBook wantBook = wantBookRepository.findByIdAndUser(wantBookId, userRepository.getReferenceById(userId))
+    public WantBookDto getWantBook(Long userId, Long wantBookId) {
+        WantBook wantBook = wantBookRepository.findWithReasonsByIdAndUserId(wantBookId, userId)
                 .orElseThrow(IllegalArgumentException::new);
         return convert(wantBook);
     }
