@@ -2,16 +2,18 @@ package com.won.bookappapi.service;
 
 import com.won.bookappapi.api.request.WantBookCreateRequest;
 import com.won.bookappapi.api.request.WantBookUpdateRequest;
+import com.won.bookappapi.service.dto.WantBookDto;
 import com.won.bookcommon.util.LocalDateTimeUtil;
 import com.won.bookdomain.code.UserAuthRole;
 import com.won.bookdomain.domain.Book;
 import com.won.bookdomain.domain.User;
 import com.won.bookdomain.domain.WantBook;
+import com.won.bookdomain.domain.WantBookReason;
 import com.won.bookdomain.repository.BookRepository;
 import com.won.bookdomain.repository.UserRepository;
+import com.won.bookdomain.repository.WantBookReasonRepository;
 import com.won.bookdomain.repository.WantBookRepository;
-import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.asm.Advice;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +33,15 @@ class WantBookServiceTest {
     @Autowired private BookRepository bookRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private WantBookRepository wantBookRepository;
+    @Autowired private WantBookReasonRepository wantBookReasonRepository;
     @Autowired private WantBookService wantBookService;
+    @Autowired private EntityManager em;
 
+    private User user;
     private WantBook wantBook;
 
     void init() {
-        User user = userRepository.save(User.builder()
+        user = userRepository.save(User.builder()
                 .name("박자바")
                 .email("test@test.com")
                 .password("test1234")
@@ -52,12 +57,54 @@ class WantBookServiceTest {
                 .sort("IT")
                 .build());
 
-        wantBook = wantBookRepository.save(WantBook.builder()
-                        .user(user)
-                        .book(book)
-                        .addAt(LocalDate.now())
-                        .deleted(false)
-                        .build());
+        WantBook saveWantBook = WantBook.builder()
+                .user(user)
+                .book(book)
+                .addAt(LocalDate.now())
+                .deleted(false)
+                .build();
+
+        WantBookReason reason1 = WantBookReason.create("재미 있는 책");
+        WantBookReason reason2 = WantBookReason.create("추천 받은 책");
+        saveWantBook.addWantBookReasons(List.of(reason1, reason2));
+
+        wantBook = wantBookRepository.save(saveWantBook);
+        em.flush();
+        em.clear();
+    }
+
+    @DisplayName("회원이 저장한 읽고 싶은 책 리스트를 조회한다.")
+    @Test
+    void getWantBooks() {
+        // given
+        init();
+        long userId = user.getId();
+
+        // when
+        List<WantBookDto> findWantBooks = wantBookService.getWantBooks(userId);
+
+        // then
+        then(findWantBooks).hasSize(1);
+        then(findWantBooks.get(0).getBook().getTitle()).isEqualTo(wantBook.getBook().getTitle());
+        then(findWantBooks.get(0).getBook().getAuthor()).isEqualTo(wantBook.getBook().getAuthor());
+        then(findWantBooks.get(0).getBook().getBookId()).isEqualTo(wantBook.getBook().getId());
+    }
+
+    @DisplayName("회원이 저장한 읽고 싶은 책의 상세를 조회한다.")
+    @Test
+    void getWantBook() {
+        // given
+        init();
+        long userId = user.getId();
+        long wantBookId = wantBook.getId();
+
+        // when
+        WantBookDto findWantBook = wantBookService.getWantBook(userId, wantBookId);
+
+        // then
+        then(findWantBook.getId()).isEqualTo(wantBookId);
+        then(findWantBook.getBook().getBookId()).isEqualTo(wantBook.getBook().getId());
+        then(findWantBook.getBook().getSort()).isEqualTo(wantBook.getBook().getSort());
     }
 
     @DisplayName("읽고 싶은 책을 저장한다.")
@@ -100,7 +147,8 @@ class WantBookServiceTest {
         WantBook findWantBook = wantBookRepository.findById(updateWantBookId).orElseThrow();
 
         then(findWantBook.getAddAt()).isEqualTo(LocalDateTimeUtil.toLocalDate(addAt));
-        then(findWantBook.getWantBookReasons().get(0).getReason()).isEqualTo(reason);
+        int size = findWantBook.getWantBookReasons().size();
+        then(findWantBook.getWantBookReasons().get(size-1).getReason()).isEqualTo(reason);
     }
 
     @DisplayName("읽고 싶은 책을 삭제한다.")
