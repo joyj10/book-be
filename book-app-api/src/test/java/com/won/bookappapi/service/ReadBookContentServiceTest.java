@@ -12,7 +12,6 @@ import com.won.bookdomain.repository.BookRepository;
 import com.won.bookdomain.repository.ReadBookContentRepository;
 import com.won.bookdomain.repository.ReadBookRepository;
 import com.won.bookdomain.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 
 @SpringBootTest
-@Slf4j
 @Transactional
 class ReadBookContentServiceTest {
     @Autowired private ReadBookRepository readBookRepository;

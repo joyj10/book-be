@@ -4,16 +4,16 @@ import com.won.bookappapi.api.request.BookCreateRequest;
 import com.won.bookappapi.service.dto.BookDto;
 import com.won.bookdomain.domain.Book;
 import com.won.bookdomain.repository.BookRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Slf4j
 @SpringBootTest
+@Transactional
 class BookServiceTest {
 
     @Autowired
