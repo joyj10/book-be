@@ -30,7 +30,7 @@ public class WantBook extends BaseDateEntity {
     @Column(name = "add_at")
     private LocalDate addAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
