@@ -3,6 +3,7 @@ package com.won.bookappapi.api.controller;
 import com.won.bookappapi.ControllerTestSupport;
 import com.won.bookappapi.api.request.ReadBookCreateRequest;
 import com.won.bookappapi.api.request.ReadBookUpdateRequest;
+import com.won.bookappapi.api.request.YearMonthRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -217,13 +218,52 @@ class ReadBookControllerTest extends ControllerTestSupport {
         // then
     }
 
-    @DisplayName("")
+    @DisplayName("월별 읽은책 조회가 가능하다.")
     @Test
     @WithMockUser("테스트")
-    void getReadBookOfMonth() {
-        // given
-        // when
-        // then
+    void getReadBookOfMonth() throws Exception {
+        // given // given// when // then
+        mockMvc.perform(
+                    get("/v1/books/read/month")
+                            .param("year", "2024")
+                            .param("month", "1")
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("success"))
+                .andExpect(jsonPath("$.result").isArray());
+    }
+
+    @DisplayName("월별 읽은책 조회 시 month Param은 1 - 12가 아닌 경우 예외가 발생한다.")
+    @Test
+    @WithMockUser("테스트")
+    void getReadBookOfMonth_month_over() throws Exception {
+        // given // when // then
+        mockMvc.perform(
+                    get("/v1/books/read/month")
+                            .param("year", "2024")
+                            .param("month", "13")
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.code").value("CB0001"));
+    }
+
+    @DisplayName("월별 읽은책 조회 시 year Param은 음수인 경우 경우 예외가 발생한다.")
+    @Test
+    @WithMockUser("테스트")
+    void getReadBookOfMonth_invalid_year() throws Exception {
+        // given // when // then
+        mockMvc.perform(
+                        get("/v1/books/read/month")
+                                .param("year", "-2024")
+                                .param("month", "1")
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.code").value("CB0001"));
     }
 
     @DisplayName("")

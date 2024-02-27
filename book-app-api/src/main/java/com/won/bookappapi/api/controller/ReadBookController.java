@@ -71,7 +71,7 @@ public class ReadBookController {
 
     @GetMapping("/v1/books/read/month")
     @ApiOperation(value = "월별 읽은 책 조회")
-    public ResponseResult<List<ReadBookDto>> getReadBookOfMonth(@Valid @RequestParam YearMonthRequest yearMonthRequest) {
+    public ResponseResult<List<ReadBookDto>> getReadBookOfMonth(@Valid YearMonthRequest yearMonthRequest) {
         return new ResponseResult<>(readBookService.getReadBookOfMonth(getUserId(), yearMonthRequest));
     }
 
