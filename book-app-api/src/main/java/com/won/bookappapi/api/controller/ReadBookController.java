@@ -3,30 +3,30 @@ package com.won.bookappapi.api.controller;
 import com.won.bookappapi.api.request.ReadBookCreateRequest;
 import com.won.bookappapi.api.request.ReadBookUpdateRequest;
 import com.won.bookappapi.api.request.YearMonthRequest;
+import com.won.bookappapi.service.ReadBookService;
+import com.won.bookappapi.service.dto.ReadBookDto;
 import com.won.bookappapi.service.dto.ReadBookYearDto;
 import com.won.bookcommon.exception.BusinessException;
 import com.won.bookcommon.exception.ExceptionCode;
 import com.won.bookcommon.response.ResponseResult;
-import com.won.bookappapi.service.dto.ReadBookDto;
-import com.won.bookappapi.service.ReadBookService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "1. Read Book Controller")
+@Tag(name = "Read Book Controller", description = "읽은 책 API")
 public class ReadBookController {
 
     private final ReadBookService readBookService;
 
-    @GetMapping("/v1/books/read")
-    @ApiOperation(value = "읽은 책 리스트")
+    @GetMapping("/books/read")
+    @Operation(summary = "읽은 책 리스트 조회", description = "읽은 책 리스트를 반환합니다.")
     public ResponseResult<List<ReadBookDto>> getReadBooks() {
         // 읽은 책 리스트 조회
         /** [추가작업] 페이징 처리 필요 */
@@ -35,48 +35,50 @@ public class ReadBookController {
         return new ResponseResult<>(readBookService.getReadBooks(getUserId()));
     }
 
-    @GetMapping("/v1/books/read/{read-book-id}")
-    @ApiOperation(value = "읽은 책 상세")
+    @GetMapping("/books/read/{read-book-id}")
+    @Operation(summary = "읽은 책 상세 조회", description = "읽은 책 상세 단건 조회합니다.")
     public ResponseResult<ReadBookDto> getReadBook(@PathVariable("read-book-id") Long readBookId) {
         return new ResponseResult<>(readBookService.getReadBook(getUserId(), readBookId));
     }
 
-    @PostMapping("/v1/books/read")
-    @ApiOperation(value = "읽은 책 저장")
+    @PostMapping("/books/read")
+    @Operation(summary = "읽은 책 저장", description = "읽은 책을 저장합니다.")
     public ResponseResult<Long> save(@Valid @RequestBody ReadBookCreateRequest request) {
         Long readBookId = readBookService.save(getUserId(), request);
         return new ResponseResult<>(readBookId);
     }
 
-    @PatchMapping("/v1/books/read/{read-book-id}")
-    @ApiOperation(value = "읽은 책 수정")
+    @PatchMapping("/books/read/{read-book-id}")
+    @Operation(summary = "읽은 책 수정", description = "읽은 책을 수정합니다.")
     public ResponseResult<Long> update(@PathVariable("read-book-id") Long readBookId,
                                        @Valid @RequestBody ReadBookUpdateRequest request) {
         Long id = readBookService.update(getUserId(), readBookId, request);
         return new ResponseResult<>(id);
     }
 
-    @DeleteMapping("/v1/books/read/{read-book-id}")
-    @ApiOperation(value = "읽은 책 삭제")
+    @DeleteMapping("/books/read/{read-book-id}")
+    @Operation(summary = "읽은 책 삭제", description = "읽은 책을 삭제합니다.")
     public ResponseResult<Boolean> delete(@PathVariable("read-book-id") Long readBookId) {
         readBookService.delete(getUserId(), readBookId);
         return new ResponseResult<>(true);
     }
 
-    @PostMapping("/v1/books/read/{read-book-id}/repeat")
-    @ApiOperation(value = "다시 읽은 책 저장")
+    @PostMapping("/books/read/{read-book-id}/repeat")
+    @Operation(summary = "다시 읽은 책 저장", description = "다시 읽은 책을 저장합니다.")
     public String saveRepeat(@PathVariable("read-book-id") Long readBookId, @Valid @RequestBody ReadBookCreateRequest request) {
         return "Hello" + readBookId;
     }
 
-    @GetMapping("/v1/books/read/month")
-    @ApiOperation(value = "월별 읽은 책 조회")
+    @GetMapping("/books/read/month")
+    @ApiOperation(value = "특정 월의 읽은 책들 조회")
+    @Operation(summary = "특정 월의 읽은 책들 조회", description = "특정 월의 읽은 책들을 조회합니다.")
     public ResponseResult<List<ReadBookDto>> getReadBookOfMonth(@Valid @RequestParam YearMonthRequest yearMonthRequest) {
         return new ResponseResult<>(readBookService.getReadBookOfMonth(getUserId(), yearMonthRequest));
     }
 
-    @GetMapping("/v1/books/read/year")
-    @ApiOperation(value = "해당 년도 읽은 책 조회")
+    @GetMapping("/books/read/year")
+    @ApiOperation(value = "특정 년도의 읽은 책들 조회")
+    @Operation(summary = "특정 년도의 읽은 책들 조회", description = "특정 년도의 읽은 책들을 조회합니다.")
     public ResponseResult<List<ReadBookYearDto>> getReadBookOfYear(int year) {
         validYear(year);
         return new ResponseResult<>(readBookService.getReadBookOfYear(getUserId(), year));

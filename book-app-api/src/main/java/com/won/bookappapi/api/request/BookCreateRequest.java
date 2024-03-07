@@ -1,48 +1,38 @@
 package com.won.bookappapi.api.request;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.won.bookdomain.domain.Book;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
+import lombok.*;
 
-/**
- * BookCreateRequest
- * <pre>
- * Describe here
- * </pre>
- *
- * @version 1.0,
- */
-
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ApiModel(value = "책 저장 Request Model")
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@Schema(description = "책 저장 Request Model")
 public class BookCreateRequest {
     @NotBlank
-    @ApiModelProperty(value = "책 이름", required = true)
+//    @Schema(description = "책 이름", example = "헬로우 자바!", accessMode = READ_ONLY)
     private String title;
 
     @NotBlank
-    @ApiModelProperty(value = "저자", required = true)
+//    @Schema(description = "저자", example = "김자바", accessMode = READ_ONLY)
     private String author;
 
     @Positive
-    @ApiModelProperty(value = "가격")
-    private int price;
+//    @Schema(description = "가격", example = "10000", accessMode = READ_ONLY)
+    private Integer price;
 
-    @ApiModelProperty(value = "출판사")
+//    @Schema(description = "출판사", accessMode = READ_ONLY)
     private String publisher;
 
     @NotBlank
-    @ApiModelProperty(value = "분류", required = true)
+//    @Schema(description = "분류", example = "IT", required = true)
     private String sort;
 
     public Book toEntity() {

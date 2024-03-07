@@ -135,7 +135,7 @@ class WantBookServiceTest {
         // given
         init();
         String reason = "읽고 싶은 책 수정 이유";
-        String addAt = "2024-01-10";
+        LocalDate addAt = LocalDate.of(2024, 1, 10);
         WantBookUpdateRequest updateRequest = WantBookUpdateRequest.builder()
                 .addAt(addAt)
                 .reasons(List.of(reason))
@@ -146,7 +146,7 @@ class WantBookServiceTest {
         // then
         WantBook findWantBook = wantBookRepository.findById(updateWantBookId).orElseThrow();
 
-        then(findWantBook.getAddAt()).isEqualTo(LocalDateTimeUtil.toLocalDate(addAt));
+        then(findWantBook.getAddAt()).isEqualTo(addAt);
         int size = findWantBook.getWantBookReasons().size();
         then(findWantBook.getWantBookReasons().get(size-1).getReason()).isEqualTo(reason);
     }

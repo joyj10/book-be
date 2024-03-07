@@ -28,7 +28,7 @@ class ReadBookControllerTest extends ControllerTestSupport {
         // given
         // when // then
         mockMvc.perform(
-                        get("/v1/books/read")
+                        get("/books/read")
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -43,7 +43,7 @@ class ReadBookControllerTest extends ControllerTestSupport {
         // given
         // when // then
         mockMvc.perform(
-                get("/v1/books/read/1")
+                get("/books/read/1")
         )
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -63,7 +63,7 @@ class ReadBookControllerTest extends ControllerTestSupport {
                 .build();
 
         // when // then
-        mockMvc.perform(post("/v1/books/read").with(csrf())
+        mockMvc.perform(post("/books/read").with(csrf())
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -83,7 +83,7 @@ class ReadBookControllerTest extends ControllerTestSupport {
                 .build();
 
         // when // then
-        mockMvc.perform(post("/v1/books/read").with(csrf())
+        mockMvc.perform(post("/books/read").with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -106,7 +106,7 @@ class ReadBookControllerTest extends ControllerTestSupport {
                 .build();
 
         // when // then
-        mockMvc.perform(post("/v1/books/read").with(csrf())
+        mockMvc.perform(post("/books/read").with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -129,7 +129,7 @@ class ReadBookControllerTest extends ControllerTestSupport {
                 .build();
 
         // when // then
-        mockMvc.perform(post("/v1/books/read").with(csrf())
+        mockMvc.perform(post("/books/read").with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -150,7 +150,7 @@ class ReadBookControllerTest extends ControllerTestSupport {
                 .build();
 
         // when // then
-        mockMvc.perform(patch("/v1/books/read/1").with(csrf())
+        mockMvc.perform(patch("/books/read/1").with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -168,7 +168,7 @@ class ReadBookControllerTest extends ControllerTestSupport {
                 .build();
 
         // when // then
-        mockMvc.perform(patch("/v1/books/read/1").with(csrf())
+        mockMvc.perform(patch("/books/read/1").with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -188,7 +188,7 @@ class ReadBookControllerTest extends ControllerTestSupport {
                 .build();
 
         // when // then
-        mockMvc.perform(patch("/v1/books/read/1").with(csrf())
+        mockMvc.perform(patch("/books/read/1").with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -202,7 +202,7 @@ class ReadBookControllerTest extends ControllerTestSupport {
     @WithMockUser("테스트")
     void DeleteReadBook() throws Exception {
         // given // when // then
-        mockMvc.perform(delete("/v1/books/read/1").with(csrf()))
+        mockMvc.perform(delete("/books/read/1").with(csrf()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("success"));

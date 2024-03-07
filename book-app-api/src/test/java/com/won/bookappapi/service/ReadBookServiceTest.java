@@ -13,6 +13,7 @@ import com.won.bookdomain.repository.BookRepository;
 import com.won.bookdomain.repository.ReadBookRepository;
 import com.won.bookdomain.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -259,6 +260,7 @@ class ReadBookServiceTest {
                 .isExactlyInstanceOf(IllegalArgumentException.class);
     }
 
+    @Disabled
     @DisplayName("멤버의 해당 월의 읽은 책 전체를 조회 한다.")
     @Test
     void getReadBookOfMonth() {

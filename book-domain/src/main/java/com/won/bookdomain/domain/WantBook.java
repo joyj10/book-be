@@ -2,14 +2,11 @@ package com.won.bookdomain.domain;
 
 import com.won.bookcommon.util.LocalDateTimeUtil;
 import com.won.bookdomain.domain.base.BaseDateEntity;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-
-import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -62,11 +59,8 @@ public class WantBook extends BaseDateEntity {
                 .build();
     }
 
-    public void update(String addAt, List<WantBookReason> wantBookReasons) {
-        if (addAt != null) {
-            this.addAt = LocalDateTimeUtil.toLocalDate(addAt);
-        }
-
+    public void update(LocalDate addAt, List<WantBookReason> wantBookReasons) {
+        this.addAt = addAt;
         addWantBookReasons(wantBookReasons);
     }
 

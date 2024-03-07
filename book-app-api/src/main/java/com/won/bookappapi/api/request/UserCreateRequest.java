@@ -1,5 +1,7 @@
 package com.won.bookappapi.api.request;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.won.bookappapi.aop.validation.EmailUnique;
 import io.swagger.annotations.ApiModel;
 import jakarta.validation.constraints.Email;
@@ -8,7 +10,9 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 @Getter
+@Setter
 @NoArgsConstructor
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @ApiModel(value = "사용자 회원 가입 Request Model")
 public class UserCreateRequest {
     @NotEmpty(message = "필수값")
