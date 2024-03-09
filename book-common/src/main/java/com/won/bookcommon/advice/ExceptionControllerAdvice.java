@@ -34,15 +34,17 @@ public class ExceptionControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseResult<Object> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        log.error("handlerMethodArgumentNotValidException = ", e);
+
         ExceptionCode exceptionCode = ExceptionCode.INVALID_PARAMETER;
-        List<FieldError> errors = e.getBindingResult().getFieldErrors();
+        List<String> errorMessages = e.getBindingResult().getFieldErrors().stream()
+                .map(error -> {
+                    String format = "%s : %s";
+                    return String.format(format, error.getField(), error.getDefaultMessage());
+                })
+                .toList();
 
-        String errorMessage = exceptionCode.getMessage();
-        if (!errors.isEmpty()) {
-            List<String> list = errors.stream().map(error -> error.getField() + " - " + error.getDefaultMessage()).toList();
-            errorMessage = list.toString();
-        }
-
+        String errorMessage = errorMessages.isEmpty() ? exceptionCode.getMessage() : errorMessages.toString();
         return new ResponseResult<>(HttpStatus.BAD_REQUEST, exceptionCode.getCode(), errorMessage);
     }
 }

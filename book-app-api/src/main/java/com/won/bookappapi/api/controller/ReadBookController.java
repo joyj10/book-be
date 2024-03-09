@@ -56,8 +56,8 @@ public class ReadBookController {
         return new ResponseResult<>(id);
     }
 
-    @DeleteMapping("/books/read/{read-book-id}")
-    @Operation(summary = "읽은 책 삭제", description = "읽은 책을 삭제합니다.")
+    @DeleteMapping("/v1/books/read/{read-book-id}")
+    @ApiOperation(value = "읽은 책 삭제")
     public ResponseResult<Boolean> delete(@PathVariable("read-book-id") Long readBookId) {
         readBookService.delete(getUserId(), readBookId);
         return new ResponseResult<>(true);
@@ -70,14 +70,12 @@ public class ReadBookController {
     }
 
     @GetMapping("/books/read/month")
-    @ApiOperation(value = "특정 월의 읽은 책들 조회")
     @Operation(summary = "특정 월의 읽은 책들 조회", description = "특정 월의 읽은 책들을 조회합니다.")
     public ResponseResult<List<ReadBookDto>> getReadBookOfMonth(@Valid @RequestParam YearMonthRequest yearMonthRequest) {
         return new ResponseResult<>(readBookService.getReadBookOfMonth(getUserId(), yearMonthRequest));
     }
 
     @GetMapping("/books/read/year")
-    @ApiOperation(value = "특정 년도의 읽은 책들 조회")
     @Operation(summary = "특정 년도의 읽은 책들 조회", description = "특정 년도의 읽은 책들을 조회합니다.")
     public ResponseResult<List<ReadBookYearDto>> getReadBookOfYear(int year) {
         validYear(year);
