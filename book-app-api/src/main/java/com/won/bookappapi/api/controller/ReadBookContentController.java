@@ -1,9 +1,9 @@
 package com.won.bookappapi.api.controller;
 
 import com.won.bookappapi.api.request.ReadBookContentCreateRequest;
+import com.won.bookappapi.api.request.ReadBookContentUpdateRequest;
 import com.won.bookappapi.service.ReadBookContentService;
 import com.won.bookappapi.service.dto.ReadBookContentDto;
-import com.won.bookcommon.response.EmptyResult;
 import com.won.bookcommon.response.ResponseResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,23 +29,23 @@ public class ReadBookContentController {
 
     @PostMapping("/books/read/contents")
     @Operation(summary = "읽은 책 글귀 저장", description = "읽은 책의 좋은 글귀를 추가 저장합니다.")
-    public ResponseResult<EmptyResult> save(@Valid @RequestBody ReadBookContentCreateRequest createRequest) {
+    public ResponseResult<Boolean> save(@Valid @RequestBody ReadBookContentCreateRequest createRequest) {
         readBookContentService.save(createRequest);
-        return new ResponseResult<>(new EmptyResult());
+        return new ResponseResult<>(true);
     }
 
     @PatchMapping("/books/read/contents/{content-id}")
     @Operation(summary = "읽은 책의 글귀 수정", description = "읽은 책의 특정 글귀를 수정합니다.")
-    public ResponseResult<EmptyResult> update(@PathVariable("content-id") Long contentId,
-                                              @Valid @RequestBody String content) {
-        readBookContentService.update(contentId, content);
-        return new ResponseResult<>(new EmptyResult());
+    public ResponseResult<Boolean> update(@PathVariable("content-id") Long contentId,
+                                          @Valid @RequestBody ReadBookContentUpdateRequest updateRequest) {
+        readBookContentService.update(contentId, updateRequest);
+        return new ResponseResult<>(true);
     }
 
     @DeleteMapping("/books/read/contents/{content-id}")
     @Operation(summary = "읽은 책의 특정 글귀 삭제", description = "읽은 책의 특정 글귀를 삭제합니다.")
-    public ResponseResult<EmptyResult> delete(@PathVariable("content-id") Long contentId) {
+    public ResponseResult<Boolean> delete(@PathVariable("content-id") Long contentId) {
         readBookContentService.delete(contentId);
-        return new ResponseResult<>(new EmptyResult());
+        return new ResponseResult<>(true);
     }
 }

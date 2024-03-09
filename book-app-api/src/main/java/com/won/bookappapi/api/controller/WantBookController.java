@@ -4,7 +4,7 @@ import com.won.bookappapi.api.request.WantBookCreateRequest;
 import com.won.bookappapi.api.request.WantBookUpdateRequest;
 import com.won.bookappapi.service.WantBookService;
 import com.won.bookappapi.service.dto.WantBookDto;
-import com.won.bookcommon.response.EmptyResult;
+import com.won.bookappapi.api.response.EmptyResult;
 import com.won.bookcommon.response.ResponseResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

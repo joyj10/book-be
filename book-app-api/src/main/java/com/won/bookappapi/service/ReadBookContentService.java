@@ -1,6 +1,7 @@
 package com.won.bookappapi.service;
 
 import com.won.bookappapi.api.request.ReadBookContentCreateRequest;
+import com.won.bookappapi.api.request.ReadBookContentUpdateRequest;
 import com.won.bookappapi.converter.ReadBookContentConverter;
 import com.won.bookappapi.service.dto.ReadBookContentDto;
 import com.won.bookdomain.domain.ReadBook;
@@ -45,11 +46,11 @@ public class ReadBookContentService {
     }
 
     @Transactional
-    public void update(Long contentId, String content) {
+    public void update(Long contentId, ReadBookContentUpdateRequest updateRequest) {
         ReadBookContent readBookContent = contentRepository.findById(contentId)
                 .orElseThrow(EntityNotFoundException::new);
 
-        readBookContent.updateContent(content);
+        readBookContent.updateContent(updateRequest.getContent());
     }
 
     @Transactional

@@ -1,6 +1,7 @@
 package com.won.bookappapi.service;
 
 import com.won.bookappapi.api.request.ReadBookContentCreateRequest;
+import com.won.bookappapi.api.request.ReadBookContentUpdateRequest;
 import com.won.bookappapi.service.dto.ReadBookContentDto;
 import com.won.bookcommon.exception.BusinessException;
 import com.won.bookdomain.code.UserAuthRole;
@@ -113,9 +114,12 @@ class ReadBookContentServiceTest {
         init();
         Long contentId = readBook.getReadBookContents().get(0).getId();
         String changeContent = "변경된 문장";
+        ReadBookContentUpdateRequest updateRequest = ReadBookContentUpdateRequest.builder()
+                .content(changeContent)
+                .build();
 
         // when
-        contentService.update(contentId, changeContent);
+        contentService.update(contentId, updateRequest);
 
         // then
         ReadBookContent findContent = contentRepository.findById(contentId)
@@ -131,9 +135,13 @@ class ReadBookContentServiceTest {
         init();
         Long contentId = readBook.getReadBookContents().get(0).getId();
         String changeContent = "";
+        ReadBookContentUpdateRequest updateRequest = ReadBookContentUpdateRequest.builder()
+                .content(changeContent)
+                .build();
+
 
         // when then
-        thenThrownBy(() -> contentService.update(contentId, changeContent))
+        thenThrownBy(() -> contentService.update(contentId, updateRequest))
                 .isExactlyInstanceOf(BusinessException.class);
     }
 

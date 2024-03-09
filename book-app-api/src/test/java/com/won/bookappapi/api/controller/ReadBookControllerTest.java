@@ -200,7 +200,7 @@ class ReadBookControllerTest extends ControllerTestSupport {
     @DisplayName("읽은 책을 삭제할 수 있다.")
     @Test
     @WithMockUser("테스트")
-    void DeleteReadBook() throws Exception {
+    void deleteReadBook() throws Exception {
         // given // when // then
         mockMvc.perform(delete("/books/read/1").with(csrf()))
                 .andDo(print())
