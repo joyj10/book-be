@@ -2,6 +2,7 @@ package com.won.bookappapi;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.won.bookappapi.api.controller.ReadBookController;
+import com.won.bookappapi.service.BookService;
 import com.won.bookappapi.service.ReadBookContentService;
 import com.won.bookappapi.service.ReadBookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +25,7 @@ public class ControllerTestSupport {
 
     @MockBean
     protected ReadBookContentService readBookContentService;
+
+    @MockBean
+    protected BookService bookService;
 }

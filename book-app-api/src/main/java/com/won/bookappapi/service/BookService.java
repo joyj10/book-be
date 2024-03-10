@@ -20,7 +20,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final BookConverter bookConverter;
 
-    public List<BookDto> getBooks(String keyword) {
+    public List<BookDto> searchBooks(String keyword) {
         // DB 조회가 아닌 네이버 책 API 호출로 변경
         // https://developers.naver.com/docs/serviceapi/search/book/book.md#%EC%B1%85
         return new ArrayList<>();

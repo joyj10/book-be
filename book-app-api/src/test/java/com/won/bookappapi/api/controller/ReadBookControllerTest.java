@@ -68,7 +68,7 @@ class ReadBookControllerTest extends ControllerTestSupport {
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON)
         )
-                .andExpect(MockMvcResultMatchers.status().isOk());
+                .andExpect(status().isOk());
     }
 
     @DisplayName("읽은 책 저장 시 읽은 날 데이터가 빈값인 경우 예외가 발생한다.")
