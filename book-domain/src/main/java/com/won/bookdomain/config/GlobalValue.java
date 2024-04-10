@@ -10,7 +10,7 @@ public class GlobalValue {
             "/**/swagger-ui.html",
             "/**/swagger-ui/**",
             "/**/swagger-resources/**",
-            "/**/login",
-            "/**/join",
+            "/login",
+            "/join"
     };
 }

@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "user controller", description = "사용자 관련API")
+@Tag(name = "user controller", description = "사용자 관련 API")
 public class UserController {
     private final UserAppService userAppService;
 
-    @PostMapping("/users/join")
+    @PostMapping("/join")
     @Operation(summary = "사용자 회원 가입", description = "사용자 회원 가입을 합니다.")
     public ResponseResult<Long> join(@Valid @RequestBody UserCreateRequest createRequest) {
         Long result = userAppService.join(createRequest);

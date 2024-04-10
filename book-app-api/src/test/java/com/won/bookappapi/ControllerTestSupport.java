@@ -5,6 +5,8 @@ import com.won.bookappapi.api.controller.ReadBookController;
 import com.won.bookappapi.service.BookService;
 import com.won.bookappapi.service.ReadBookContentService;
 import com.won.bookappapi.service.ReadBookService;
+import com.won.bookappapi.service.UserAppService;
+import com.won.bookdomain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,4 +30,10 @@ public class ControllerTestSupport {
 
     @MockBean
     protected BookService bookService;
+
+    @MockBean
+    protected UserAppService userAppService;
+
+    @MockBean
+    protected UserRepository userRepository;
 }
