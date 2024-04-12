@@ -1,8 +1,6 @@
 package com.won.bookdomain.domain;
 
 import com.won.bookcommon.exception.BusinessException;
-import com.won.bookcommon.exception.ExceptionCode;
-import com.won.bookcommon.util.LocalDateTimeUtil;
 import com.won.bookdomain.domain.base.BaseDateEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -37,6 +35,12 @@ public class ReadBook extends BaseDateEntity {
     @Column(nullable = false)
     private LocalDate lastReadAt;
 
+    @Column(nullable = false)
+    private int lastReadYear;
+
+    @Column(nullable = false)
+    private int lastReadMonth;
+
     @ColumnDefault("false")
     @Column(nullable = false)
     private boolean deleted;
@@ -63,6 +67,8 @@ public class ReadBook extends BaseDateEntity {
         this.readCount = readCount;
         this.totalRating = totalRating;
         this.lastReadAt = lastReadAt;
+        this.lastReadYear = lastReadAt.getYear();
+        this.lastReadMonth = lastReadAt.getMonthValue();
         this.deleted = deleted;
     }
 
