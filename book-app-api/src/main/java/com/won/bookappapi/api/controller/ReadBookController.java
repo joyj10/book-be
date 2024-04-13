@@ -5,7 +5,7 @@ import com.won.bookappapi.api.request.ReadBookUpdateRequest;
 import com.won.bookappapi.api.request.YearMonthRequest;
 import com.won.bookappapi.service.ReadBookService;
 import com.won.bookappapi.service.dto.ReadBookDto;
-import com.won.bookappapi.service.dto.ReadBookYearDto;
+import com.won.bookdomain.service.ReadBookYearDto;
 import com.won.bookcommon.exception.BusinessException;
 import com.won.bookcommon.exception.ExceptionCode;
 import com.won.bookcommon.response.ResponseResult;

@@ -4,6 +4,7 @@ import com.won.bookappapi.api.request.ReadBookCreateRequest;
 import com.won.bookappapi.api.request.ReadBookUpdateRequest;
 import com.won.bookappapi.api.request.YearMonthRequest;
 import com.won.bookappapi.service.dto.ReadBookDto;
+import com.won.bookdomain.service.ReadBookYearDto;
 import com.won.bookcommon.exception.BusinessException;
 import com.won.bookdomain.code.UserAuthRole;
 import com.won.bookdomain.domain.Book;
@@ -296,5 +297,31 @@ class ReadBookServiceTest {
                         tuple(book1.getTitle(), book1.getSort(), book1.getAuthor()),
                         tuple(book2.getTitle(), book2.getSort(), book2.getAuthor())
                 );
+    }
+
+
+    @DisplayName("해당 년도에 읽은 책을 조회한다.")
+    @Test
+    void getReadBookOfYear() {
+        // given
+        Book book1 = books.get(0);
+        Book book2 = books.get(1);
+
+        List<ReadBook> saveReadBooks = new ArrayList<>();
+        saveReadBooks.add(getReadBook(5, book1, user, LocalDate.of(2024, 1, 1)));
+        saveReadBooks.add(getReadBook(4, book2, user, LocalDate.of(2024, 2, 1)));
+        readBookRepository.saveAll(saveReadBooks);
+
+        // when
+        List<ReadBookYearDto> result = readBookService.getReadBookOfYear(1L, 2024);
+
+        // then
+        assertThat(result).hasSize(2)
+                .extracting("month", "totalReadBookCount")
+                .containsExactlyInAnyOrder(
+                        tuple(1, 1L),
+                        tuple(2, 1L)
+                );
+
     }
 }

@@ -5,12 +5,12 @@ import com.won.bookappapi.api.request.ReadBookUpdateRequest;
 import com.won.bookappapi.api.request.YearMonthRequest;
 import com.won.bookappapi.converter.ReadBookConverter;
 import com.won.bookappapi.service.dto.ReadBookDto;
-import com.won.bookappapi.service.dto.ReadBookYearDto;
 import com.won.bookcommon.util.LocalDateTimeUtil;
 import com.won.bookdomain.domain.*;
 import com.won.bookdomain.repository.BookRepository;
 import com.won.bookdomain.repository.ReadBookRepository;
 import com.won.bookdomain.repository.UserRepository;
+import com.won.bookdomain.service.ReadBookYearDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,6 +27,7 @@ import java.util.List;
 public class ReadBookService {
 
     private final ReadBookRepository readBookRepository;
+
     private final ReadBookConverter readBookConverter;
 
     private final UserRepository userRepository;
@@ -119,7 +120,6 @@ public class ReadBookService {
 
     @Transactional(readOnly = true)
     public List<ReadBookYearDto> getReadBookOfYear(Long userId, int year) {
-        // TODO queryDSL 세팅 후 작업
-        return new ArrayList<>();
+        return readBookRepository.getReadBookYearDto(userId, year);
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ReadBookRepository extends JpaRepository<ReadBook, Long> {
+public interface ReadBookRepository extends JpaRepository<ReadBook, Long>, ReadBookRepositoryCustom {
     List<ReadBook> findAllByUser(User user);
     Optional<ReadBook> findByIdAndUser(Long readBookId, User user);
     List<ReadBook> findAllByUserAndLastReadAtBetween(User user, LocalDate startDate, LocalDate endDate);
