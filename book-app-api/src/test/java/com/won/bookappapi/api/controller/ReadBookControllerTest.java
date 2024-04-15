@@ -10,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.util.List;
 
@@ -222,11 +224,17 @@ class ReadBookControllerTest extends ControllerTestSupport {
     @Test
     @WithMockUser("테스트")
     void getReadBookOfMonth() throws Exception {
-        // given // given// when // then
+        // given
+        YearMonthRequest yearMonthRequest = YearMonthRequest.builder()
+                .year(2024)
+                .month(1)
+                .build();
+
+        // when // then
         mockMvc.perform(
-                    get("/v1/books/read/month")
+                    get("/books/read/month")
                             .param("year", "2024")
-                            .param("month", "1")
+                            .param("month", "13")
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -240,7 +248,7 @@ class ReadBookControllerTest extends ControllerTestSupport {
     void getReadBookOfMonth_month_over() throws Exception {
         // given // when // then
         mockMvc.perform(
-                    get("/v1/books/read/month")
+                    get("/books/read/month")
                             .param("year", "2024")
                             .param("month", "13")
                 )
@@ -256,7 +264,7 @@ class ReadBookControllerTest extends ControllerTestSupport {
     void getReadBookOfMonth_invalid_year() throws Exception {
         // given // when // then
         mockMvc.perform(
-                        get("/v1/books/read/month")
+                        get("/books/read/month")
                                 .param("year", "-2024")
                                 .param("month", "1")
                 )

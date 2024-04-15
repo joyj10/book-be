@@ -8,7 +8,6 @@ import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
